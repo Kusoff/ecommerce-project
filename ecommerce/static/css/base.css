@@ -1,0 +1,37 @@
+body {
+    background-color: #ffffff;
+}
+
+.product_title {
+    padding-right: 20px;
+}
+
+.product_text {
+    padding-right: 20px;
+}
+
+
+ul.leaders li { clear: both; } /*Для создания списка с содержанием*/
+
+ul.leaders li span:first-child {
+  float: left;
+  padding: 0 .4em 0 0;
+  margin: 0;
+}
+ul.leaders li span + span {
+  float: right;
+  padding: 0 0 0 .4em;
+  margin: 0;
+}
+
+ul.leaders li:after {
+  content: "";
+  display: block;
+  overflow: hidden;
+  height: 1em;
+  border-bottom: 1px dotted; /*Конец списка*/
+}
+
+.leaders {
+    list-style-type: none;
+}
