@@ -1,5 +1,5 @@
   <nav class="navbar navbar-expand-md navbar-light bg-dark">
-      <a href="#" class=navbar-brand><span class="material-icons text-primary material-icons md-36 margin_nav">shop
+      <a href="/" class=navbar-brand><span class="material-icons text-primary material-icons md-36 margin_nav">shop
       </span></a>
       <button class="navbar-toggler bg-light" data-bs-toggle="collapse" data-bs-target="#navbar"><span class="navbar-toggler-icon"></span></button>
       <div id="navbar" class="collapse navbar-collapse justify-content-between">
@@ -9,11 +9,10 @@
                                             dropdown-toggle" data-bs-toggle="dropdown" href="">Categories
           </a>
               <div class ="dropdown-menu">
-                  <a class="dropdown-item" href="">Category1</a>
-                  <a class="dropdown-item" href="">Category2</a>
-                  <a class="dropdown-item" href="">Category3</a>
-                  <a class="dropdown-item" href="">Category4</a>
-                  <a class="dropdown-item" href="">Category5</a>
+                  <a class="dropdown-item" href="{% url 'home' %}">All products</a>
+                  {% for category in links %}
+                  <a class="dropdown-item" href="{{category.get_url}}">{{category.name}}</a>
+                  {% endfor %}
               </div>
           </li>
           <li class ="nav-item"><a class ="nav-link text-light text-uppercase font-weight-bold px-3" href="">Contacts</a></li>
