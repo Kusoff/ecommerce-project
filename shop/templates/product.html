@@ -12,31 +12,28 @@
             <div class="col-10 mx-auto md-6 my-3">
                 <div>
                     <h1 class="product_title">
-                        Reebok / Кроссовки REEBOK ROYAL COMPLETE CLN2
+                        {{product.name}}
                     </h1>
                     <h2 class="text-info font-italic mb-0">
-                        2819₽
+                        {{product.price}}
                     </h2>
                 </div>
             </div>
 
             <div class="col-10 mx-auto md-6 my-3">
-                <img class="mx-5" width="75%"  src="{% static 'images/one-black-sneaker-shoe-isolated-on-white.jpg' %}">
+                <img class="mx-5" width="37%"  src="{{product.image.url}}">
             </div>
 
             <div class="col-10 mx-auto md-6 my-3">
                 <h2 class="product_desc">Дополнительная информация</h2>
-                <div>
-                    <ul class="leaders px-0">
-                        <li><span>ТНВЭД</span><span>6401990000</span></li>
-                        <li><span>Ширина упаковки</span><span>24 см</span></li>
-                        <li><span>Высота упаковки</span><span>13 см</span></li>
-                        <li><span>Длина упаковки</span><span>32 см</span></li>
-                        <li><span>Комплектация</span><span>Упаковка, Кроссовки</span></li>
-                        <li><span>Пол</span><span>Мужской</span></li>
-                    </ul>
-                </div>
+                <p>{{product.description}}</p>
+                {% if product.stock <= 0 %}
+                <p>Out of Stock</p>
+                {% else %}
+                <a href="">Add To Cart</a>
+                {% endif %}
             </div>
         </div>
     </div>
 {% endblock %}
+
