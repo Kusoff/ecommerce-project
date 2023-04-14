@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block title %}
+    Cart
+{% endblock %}
+
+{% block content %}
+
+    <div class="text-center">
+        <br>
+        <div class="text-center product_title">
+            Shopping Cart
+        </div>
+    </div>
+    <div class="row mx-auto">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+        <table class="table">
+            <thead>
+            {% for i in '123' %}
+                <tr>
+                    <td><a href="">
+                        <img src="{% static 'images/one-black-sneaker-shoe-isolated-on-white.jpg' %}">
+                        </a>
+                    </td>
+                    <th colspan="4">
+                        Your Items
+                    </th>
+                </tr>
+            {% endfor %}
+            </thead>
+        </table>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="4">
+                            Check Out
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
