@@ -11,37 +11,76 @@
     <div class="text-center">
         <br>
         <div class="text-center product_title">
-            Shopping Cart
+            <h2>Shopping Cart</h2>
         </div>
     </div>
     <div class="row mx-auto">
         <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
-        <table class="table">
-            <thead>
-            {% for i in '123' %}
+        <table class="table cart-table">
+            <thead class="cart-thead">
                 <tr>
-                    <td><a href="">
-                        <img src="{% static 'images/one-black-sneaker-shoe-isolated-on-white.jpg' %}">
-                        </a>
-                    </td>
                     <th colspan="4">
-                        Your Items
+                                Your Items
                     </th>
                 </tr>
-            {% endfor %}
             </thead>
+                {% for i in '123' %}
+                    <tr>
+                        <td><a href="">
+                            <img src="{% static 'images/RTLACL042701_19385383_1_v1.jpg'%}" width="120" height="120">
+                            </a>
+                        </td>
+                        <td class="text_left">
+                            Beauty
+                            <br>
+                            SKU: 7
+                            <br>
+                            Unit Price: 20$
+                            <br>
+                            Quantity: 3 x 20$
+                        </td>
+                        <td>
+                            $60
+                        </td>
+                        <td>
+                            <a href=""><span class="material-icons cart-icon">add_shopping_cart</span></a>
+                            <a href=""><span class="material-icons cart-icon">remove_circle_outline</span></a>
+                            <a href=""><span class="material-icons cart-icon">delete</span></a>
+                        </td>
+                    </tr>
+            {% endfor %}
         </table>
         </div>
         <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
-            <table class="table">
-                <thead>
+            <table class="table cart-table">
+                <thead class="cart-thead">
                     <tr>
                         <th colspan="4">
                             Check Out
                         </th>
                     </tr>
                 </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Please check your cart before payment.
+                        </td>
+                    </tr>
+                     <tr class="text-left">
+                        <td>
+                            Your total bill is: <strong>$60</strong>
+                        </td>
+                     </tr>
+                </tbody>
             </table>
+            <div class="mx-auto">
+                <a href="" style="text-decoration: none">
+                    <button type="button" class="btn btn-lg btn-block bg-dark text-white">
+                        Back to Products
+                    </button>
+                </a>
+
+            </div>
         </div>
     </div>
 
