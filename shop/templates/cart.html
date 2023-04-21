@@ -11,6 +11,19 @@
     {% if not cart_items %}
     <div class="text-center">
         <br>
+        <h1 class="text-center product_title">
+            Your cart is empty
+        </h1>
+        <br>
+        <p class="text-center">
+            Click <a href="{% url 'home' %}">here</a>to go back to products
+        </p>
+    </div>
+
+
+    {% else %}
+    <div class="text-center">
+        <br>
         <div class="text-center product_title">
             <h2>Shopping Cart</h2>
         </div>
@@ -25,29 +38,38 @@
                     </th>
                 </tr>
             </thead>
-                {% for i in '123' %}
+                {% for cart_item in cart_items %}
                     <tr>
-                        <td><a href="">
-                            <img src="{% static 'images/RTLACL042701_19385383_1_v1.jpg'%}" width="120" height="120">
+                        <td>
+                            <a href="cart_item.product.get_url">
+                            <img src="{{ cart_item.product.image.url }}" width="120" height="120">
                             </a>
                         </td>
                         <td class="text_left">
-                            Beauty
+                            {{cart_item.product.name}}
                             <br>
-                            SKU: 7
+                            SKU: {{cart_item.product.id}}
                             <br>
-                            Unit Price: 20$
+                            Unit Price: {{cart_item.product.price}}
                             <br>
-                            Quantity: 3 x 20$
+                            Quantity: 3 x {{cart_item.quantity}} x {{ cart_item.product.price }}
                         </td>
                         <td>
-                            $60
+                            ${{cart_item.sub_total}}
                         </td>
+                        {% if cart_item.quantity < cart_item.product.stock %}
                         <td>
-                            <a href=""><span class="material-icons cart-icon">add_shopping_cart</span></a>
+                            <a href="{% url 'add_cart' cart_item.product.id %}"><span class="material-icons cart-icon">add_shopping_cart</span></a>
                             <a href=""><span class="material-icons cart-icon">remove_circle_outline</span></a>
                             <a href=""><span class="material-icons cart-icon">delete</span></a>
                         </td>
+                        {% else %}
+                        <td>
+                            <a href=""><span class="material-icons cart-icon">remove_circle_outline</span></a>
+                            <a href=""><span class="material-icons cart-icon">delete</span></a>
+                        </td>
+                        {% endif %}
+
                     </tr>
             {% endfor %}
         </table>
@@ -69,13 +91,13 @@
                     </tr>
                      <tr class="text-left">
                         <td>
-                            Your total bill is: <strong>$60</strong>
+                            Your total bill is: <strong>₽{{total}}</strong>
                         </td>
                      </tr>
                 </tbody>
             </table>
             <div class="mx-auto">
-                <a href="" style="text-decoration: none">
+                <a href="{% url 'home' %]" style="text-decoration: none">
                     <button type="button" class="btn btn-lg btn-block bg-dark text-white">
                         Back to Products
                     </button>
@@ -84,7 +106,7 @@
             </div>
         </div>
     </div>
-
+    {% endif %}
 
 
 
