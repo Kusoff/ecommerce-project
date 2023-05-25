@@ -5,7 +5,7 @@ body {
 .product_title {
     padding-right: 20px;
     text-transform: uppercase;
-    padding-top: 15 px;
+    padding-top: 15px;
     padding-bottom: 10px
 }
 
@@ -38,3 +38,11 @@ ul.leaders li:after {
 .leaders {
     list-style-type: none;
 }
+
+
+.errorlist li{
+    color: red;
+    font-weight: bold;
+
+}
+
