@@ -16,7 +16,7 @@
         </h1>
         <br>
         <p class="text-center">
-            Click <a href="{% url 'home' %}">here</a>to go back to products
+            Click <a href="{% url 'home' %}">here</a> to go back to products
         </p>
     </div>
 
@@ -52,7 +52,7 @@
                             <br>
                             Unit Price: {{cart_item.product.price}}
                             <br>
-                            Quantity: 3 x {{cart_item.quantity}} x {{ cart_item.product.price }}
+                            Quantity: {{cart_item.quantity}} x {{ cart_item.product.price }}
                         </td>
                         <td>
                             ₽{{cart_item.sub_total}}
@@ -60,13 +60,13 @@
                         {% if cart_item.quantity < cart_item.product.stock %}
                         <td>
                             <a href="{% url 'add_cart' cart_item.product.id %}"><span class="material-icons cart-icon">add_shopping_cart</span></a>
-                            <a href=""><span class="material-icons cart-icon">remove_circle_outline</span></a>
-                            <a href=""><span class="material-icons cart-icon">delete</span></a>
+                            <a href="{% url 'cart_remove' cart_item.product.id %}"><span class="material-icons cart-icon">remove_circle_outline</span></a>
+                            <a href="{% url 'cart_remove_product' cart_item.product.id %}"><span class="material-icons cart-icon">delete</span></a>
                         </td>
                         {% else %}
                         <td>
-                            <a href=""><span class="material-icons cart-icon">remove_circle_outline</span></a>
-                            <a href=""><span class="material-icons cart-icon">delete</span></a>
+                            <a href="{% url 'cart_remove' cart_item.product.id %}"><span class="material-icons cart-icon">remove_circle_outline</span></a>
+                            <a href="{% url 'cart_remove_product' cart_item.product.id %}"><span class="material-icons cart-icon">delete</span></a>
                         </td>
                         {% endif %}
 
@@ -97,7 +97,7 @@
                 </tbody>
             </table>
             <div class="mx-auto">
-                <a href="{% url 'home' %]" style="text-decoration: none">
+                <a href="{% url 'home' %}" style="text-decoration: none">
                     <button type="button" class="btn btn-lg btn-block bg-dark text-white">
                         Back to Products
                     </button>
