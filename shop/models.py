@@ -1,7 +1,25 @@
 from django.db import models
 from django.urls import reverse
-
+from django.contrib.auth.models import AbstractUser
+from autoslug import AutoSlugField
 # Create your models here.
+
+class Users(AbstractUser):
+    phone = models.CharField(max_length=20, verbose_name="Телефон", unique=True, blank=True)
+    slug = AutoSlugField(populate_from='username', unique=True, db_index=True, verbose_name='URL', )
+    birthday = models.DateTimeField(verbose_name='Дата рождения', blank=True, null=True)
+    mailing_list = models.BooleanField(default=False, blank=True, verbose_name='Рассылка')
+    address = models.CharField(max_length=150, blank=True, verbose_name='Адрес', )
+    photo = models.ImageField(upload_to='user_avatar/%Y/%m/%d/', verbose_name='Фотография', default='shop/static/img/favicon.svg')
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
+    def __str__(self):
+        return self.username
+
+
 class Category(models.Model):
     name = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=250, unique=True)
@@ -65,3 +83,6 @@ class CartItem(models.Model):
 
     def __str__(self):
         return self.product
+
+
+

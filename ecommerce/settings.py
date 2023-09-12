@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'shop',
     'crispy_forms',
     'crispy_bootstrap5',
+    'company_orders',
 ]
 
 MIDDLEWARE = [
@@ -105,6 +106,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -138,3 +141,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'media')
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+AUTH_USER_MODEL = 'shop.Users'
