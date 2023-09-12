@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from autoslug import AutoSlugField
+
+
 # Create your models here.
 
 class Users(AbstractUser):
@@ -10,11 +12,12 @@ class Users(AbstractUser):
     birthday = models.DateTimeField(verbose_name='Дата рождения', blank=True, null=True)
     mailing_list = models.BooleanField(default=False, blank=True, verbose_name='Рассылка')
     address = models.CharField(max_length=150, blank=True, verbose_name='Адрес', )
-    photo = models.ImageField(upload_to='user_avatar/%Y/%m/%d/', verbose_name='Фотография', default='shop/static/img/favicon.svg')
+    photo = models.ImageField(upload_to='user_avatar/%Y/%m/%d/', verbose_name='Фотография',
+                              default='shop/static/img/favicon.svg')
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
 
     def __str__(self):
         return self.username
@@ -27,8 +30,8 @@ class Category(models.Model):
     image = models.ImageField(upload_to='category', blank=True)
 
     class Meta:
-        ordering = ('name', ) #упорядочевание категории по имени
-        verbose_name = 'category' #для правильного написания моделей во множественном числе
+        ordering = ('name',)  # упорядочевание категории по имени
+        verbose_name = 'category'  # для правильного написания моделей во множественном числе
         verbose_name_plural = 'categories'
 
     def get_url(self):
@@ -36,6 +39,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Product(models.Model):
     name = models.CharField(max_length=250, unique=True)
@@ -50,19 +54,21 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('name', ) #упорядочевание категории по имени
-        verbose_name = 'product' #для правильного написания моделей во множественном числе
+        ordering = ('name',)  # упорядочевание категории по имени
+        verbose_name = 'product'  # для правильного написания моделей во множественном числе
         verbose_name_plural = 'products'
 
     def get_url(self):
-            return reverse('product_detail', args=[self.category.slug, self.slug])
+        return reverse('product_detail', args=[self.category.slug, self.slug])
 
     def __str__(self):
         return self.name
 
+
 class Cart(models.Model):
     cart_id = models.CharField(max_length=250, blank=True)
     date_added = models.DateField(auto_now_add=True)
+
     class Meta:
         ordering = ['date_added']
         db_table = 'Cart'
@@ -70,11 +76,13 @@ class Cart(models.Model):
         def __srt__(self):
             return self.cart_id
 
+
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     active = models.BooleanField(default=True)
+
     class Meta:
         db_table = 'CartItem'
 
@@ -83,6 +91,3 @@ class CartItem(models.Model):
 
     def __str__(self):
         return self.product
-
-
-
