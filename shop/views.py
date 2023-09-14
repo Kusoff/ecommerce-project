@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Product, Cart, CartItem
+from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import Group, User
 from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
-
+from .service import *
 # Create your views here.
 def home(request, category_slug=None):
     category_page = None
@@ -50,8 +50,14 @@ def add_cart(request, product_id):
     return redirect('cart_detail')
 
 def cart_detail(request, total=0, counter=0, cart_items=None):
+    print(request.user.email)
+    print("это request", request)
+    send(request.user.email)
+
+
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
+
         cart_items = CartItem.objects.filter(cart=cart, active=True)
         for cart_item in cart_items:
             total += (cart_item.product.price *  cart_item.quantity)
@@ -85,9 +91,10 @@ def signUpView(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
+
             username = form.cleaned_data.get('username')
             signup_user = User.objects.get(username=username)
-            user_group = Group.objects.get(name='User')
+            user_group = Group.objects.get(name='Users')
             user_group.user_set.add(signup_user)
     else:
         form = SignUpForm()
@@ -102,6 +109,7 @@ def loginView(request):
             password = request.POST['password']
             user = authenticate(username=username, password=password)
             if user is not None:
+
                 login(request, user)
                 return redirect('home')
             else:
@@ -112,5 +120,6 @@ def loginView(request):
 
 
 def signoutView(request):
+
     logout(request)
     return redirect('login')
