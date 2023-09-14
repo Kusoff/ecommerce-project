@@ -1,11 +1,17 @@
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import Group, User
-from .forms import SignUpForm
+from .forms import *
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from .service import *
+
+
+
 # Create your views here.
 def home(request, category_slug=None):
     category_page = None
@@ -16,6 +22,7 @@ def home(request, category_slug=None):
     else:
         products = Product.objects.all().filter(available=True)
     return render(request, 'home.html', {'category': category_page, 'products': products})
+
 
 def product(request, category_slug, product_slug):
     try:
@@ -30,6 +37,7 @@ def _cart_id(request):
     if not cart:
         cart = request.session.create()
     return cart
+
 
 def add_cart(request, product_id):
     product = Product.objects.get(id=product_id)
@@ -49,18 +57,18 @@ def add_cart(request, product_id):
 
     return redirect('cart_detail')
 
+
 def cart_detail(request, total=0, counter=0, cart_items=None):
     print(request.user.email)
     print("это request", request)
     send(request.user.email)
-
 
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
 
         cart_items = CartItem.objects.filter(cart=cart, active=True)
         for cart_item in cart_items:
-            total += (cart_item.product.price *  cart_item.quantity)
+            total += (cart_item.product.price * cart_item.quantity)
             counter += cart_item.quantity
     except ObjectDoesNotExist:
         pass
@@ -86,6 +94,7 @@ def cart_remove_product(request, product_id):
     cart_item.delete()
     return redirect('cart_detail')
 
+
 def signUpView(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -101,25 +110,15 @@ def signUpView(request):
     return render(request, 'signup.html', {'form': form})
 
 
-def loginView(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
+class Login(LoginView):
+    """Авторизация"""
+    form_class = LoginForm
+    template_name = 'login.html'
 
-                login(request, user)
-                return redirect('home')
-            else:
-                return redirect('signup')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+    def get_success_url(self):
+        return reverse_lazy('home')
 
 
 def signoutView(request):
-
     logout(request)
     return redirect('login')
