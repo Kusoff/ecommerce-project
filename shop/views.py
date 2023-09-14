@@ -1,6 +1,7 @@
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
@@ -95,19 +96,18 @@ def cart_remove_product(request, product_id):
     return redirect('cart_detail')
 
 
-def signUpView(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
+class Registration(CreateView):
+    """Регистрация"""
+    form_class = SignUpForm
+    template_name = 'signup.html'
+    success_url = reverse_lazy('home')
 
-            username = form.cleaned_data.get('username')
-            signup_user = User.objects.get(username=username)
-            user_group = Group.objects.get(name='Users')
-            user_group.user_set.add(signup_user)
-    else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
+
 
 
 class Login(LoginView):

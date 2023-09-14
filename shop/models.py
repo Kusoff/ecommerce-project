@@ -9,11 +9,9 @@ from autoslug import AutoSlugField
 class Users(AbstractUser):
     phone = models.CharField(max_length=20, verbose_name="Телефон", unique=True, blank=True)
     slug = AutoSlugField(populate_from='username', unique=True, db_index=True, verbose_name='URL', )
-    birthday = models.DateTimeField(verbose_name='Дата рождения', blank=True, null=True)
+    birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     mailing_list = models.BooleanField(default=False, blank=True, verbose_name='Рассылка')
     address = models.CharField(max_length=150, blank=True, verbose_name='Адрес', )
-    photo = models.ImageField(upload_to='user_avatar/%Y/%m/%d/', verbose_name='Фотография',
-                              default='shop/static/img/favicon.svg')
 
     class Meta:
         verbose_name = 'User'
