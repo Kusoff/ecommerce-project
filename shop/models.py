@@ -52,6 +52,20 @@ class Category(models.Model):
         return self.name
 
 
+class Product_Images(models.Model):
+    img_name = models.CharField(max_length=50, verbose_name='Картинка изображения', blank=True)
+    img = models.ImageField(upload_to='img_product/%Y/%m/%d/', verbose_name='Изображение продукта')
+    first_img = models.BooleanField(default=False, verbose_name='Главная картинка')
+    slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')
+
+    def __str__(self):
+        return self.img_name
+
+    class Meta:
+        verbose_name = 'Фотография продукта'
+        verbose_name_plural = 'Фотографии продуктов'
+
+
 class Product(models.Model):
     name = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=250, unique=True)
@@ -63,7 +77,7 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
-    product_photos = SortedManyToManyField('Product_Images', verbose_name='Изображения')
+    product_photos = SortedManyToManyField(Product_Images, verbose_name='Изображения')
     product_characteristic = SortedManyToManyField(Characteristic, verbose_name='Характеристики')
 
     class Meta:
@@ -132,20 +146,6 @@ class Discount_For_Product_Category(models.Model):
     class Meta:
         verbose_name = 'Скидка на категорию продукта'
         verbose_name_plural = 'Скидки на категории продуктов'
-
-
-class Product_Images(models.Model):
-    img_name = models.CharField(max_length=50, verbose_name='Картинка изображения', blank=True)
-    img = models.ImageField(upload_to='img_product/%Y/%m/%d/', verbose_name='Изображение продукта')
-    first_img = models.BooleanField(default=False, verbose_name='Главная картинка')
-    slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')
-
-    def __str__(self):
-        return self.img_name
-
-    class Meta:
-        verbose_name = 'Фотография продукта'
-        verbose_name_plural = 'Фотографии продуктов'
 
 
 class Comments(models.Model):
