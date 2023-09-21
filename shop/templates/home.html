@@ -32,7 +32,11 @@
                 <div class="col-9 mx-auto col-md-6, col-lg-3">
                     <div class="card mb-5">
                         <div class="p-4">
-                            <a href="{{product.get_url}}"><img class="card-img-top" src="{{product.image.url}}" alt="{{ product.name }}"></a>
+                            {% for image in product.product_photos.all %}
+                                <a href="{{product.get_url}}"> <img src="{{ image.img.url }}" alt="{{ product.title }}"></a>
+                            {% endfor %}
+
+
                         </div>
 
                         <div class="card-footer d-flex justify-content-between" style="background: transparent; border-color: transparent;">

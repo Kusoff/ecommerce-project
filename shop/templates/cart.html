@@ -39,10 +39,15 @@
                 </tr>
             </thead>
                 {% for cart_item in cart_items %}
+                    {% for product in products%}
                     <tr>
                         <td>
                             <a href="{{ cart_item.product.get_url }}">
-                            <img src="{{ cart_item.product.image.url }}" width="120" height="120">
+                            {% for image in product.product_photos.all %}
+                                 <img src="{{ image.img.url }}" width="120" height="120">
+                            {% endfor %}
+                    {% endfor %}
+
                             </a>
                         </td>
                         <td class="text_left">

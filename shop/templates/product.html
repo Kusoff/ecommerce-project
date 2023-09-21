@@ -21,7 +21,9 @@
             </div>
 
             <div class="col-10 mx-auto md-6 my-3">
-                <img class="mx-5" width="37%"  src="{{product.image.url}}">
+                {% for image in product.product_photos.all %}
+                    <img class="mx-5" width="37%"  src="{{image.img.url}}">
+                {% endfor %}
             </div>
 
             <div class="col-10 mx-auto md-6 my-3">

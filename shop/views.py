@@ -12,7 +12,6 @@ from django.contrib.auth import login, authenticate, logout
 from .service import *
 
 
-
 # Create your views here.
 def home(request, category_slug=None):
     category_page = None
@@ -60,10 +59,7 @@ def add_cart(request, product_id):
 
 
 def cart_detail(request, total=0, counter=0, cart_items=None):
-    print(request.user.email)
-    print("это request", request)
-    send(request.user.email)
-
+    products = Product.objects.all().filter(available=True)
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
 
@@ -73,7 +69,7 @@ def cart_detail(request, total=0, counter=0, cart_items=None):
             counter += cart_item.quantity
     except ObjectDoesNotExist:
         pass
-    return render(request, 'cart.html', dict(cart_items=cart_items, total=total, counter=counter))
+    return render(request, 'cart.html', dict(cart_items=cart_items, total=total, counter=counter, products=products))
 
 
 def cart_remove(request, product_id):
@@ -106,8 +102,6 @@ class Registration(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('home')
-
-
 
 
 class Login(LoginView):
