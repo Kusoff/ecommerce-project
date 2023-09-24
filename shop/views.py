@@ -1,4 +1,5 @@
 from django.contrib.auth.views import LoginView
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -13,23 +14,33 @@ from .service import *
 
 
 # Create your views here.
-def home(request, category_slug=None):
+def home(request, category_slug=None,  page_number=1):
     category_page = None
     products = None
+    per_page = 3
+
     if category_slug != None:
         category_page = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(category=category_page, available=True)
     else:
         products = Product.objects.all().filter(available=True)
-    return render(request, 'home.html', {'category': category_page, 'products': products})
+
+    paginator = Paginator(products, per_page)
+    products_paginator = paginator.page(page_number)
+
+    return render(request, 'home.html', {'category': category_page, 'products': products_paginator})
 
 
 def product(request, category_slug, product_slug):
     try:
         product = Product.objects.get(category__slug=category_slug, slug=product_slug)
+        context = {
+            'product': product,
+
+        }
     except Exception as e:
         raise e
-    return render(request, 'product.html', {'product': product})
+    return render(request, 'product.html', context)
 
 
 def _cart_id(request):
