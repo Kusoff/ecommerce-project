@@ -23,6 +23,11 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
+class CartAdmin(admin.TabularInline):
+    model = Cart
+    fields = ('product', 'quantity')
+
+
 class ManufacturerAdmin(admin.ModelAdmin):
     list_display = ('id', 'manufacturer_name', 'country', 'get_image')
     list_display_links = ('manufacturer_name',)

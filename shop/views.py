@@ -1,20 +1,18 @@
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.models import Group, User
 from .forms import *
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, authenticate, logout
-from .service import *
+from django.contrib.auth import login, logout
 
 
 # Create your views here.
-def home(request, category_slug=None,  page_number=1):
+def home(request, category_slug=None, page_number=1):
     category_page = None
     products = None
     per_page = 3
@@ -127,3 +125,21 @@ class Login(LoginView):
 def signoutView(request):
     logout(request)
     return redirect('login')
+
+
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(instance=request.user, data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('profile'))
+        else:
+            print(form.errors)
+    form = UserProfileForm(instance=request.user)
+    user = Users.objects.get(id=request.user.id)
+    context = {
+        'title': 'Store - Профиль',
+        'form': form,
+        'user': user
+    }
+    return render(request, 'profile.html', context)
