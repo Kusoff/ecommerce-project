@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView, DetailView
 
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
@@ -12,13 +12,31 @@ from django.contrib.auth import login, logout
 
 
 # Create your views here.
+class Test(ListView):
+    model = Product
+    template_name = 'test.html'
+    paginate_by = 1
+    context_object_name = 'products'
+
+
+class Category(ListView):
+    template_name = 'test.html'
+    paginate_by = 1
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        category = self.kwargs['category_slug']
+        product = Product.objects.filter(category__slug=category)
+        return product
+
+
 def home(request, category_slug=None, page_number=1):
     category_page = None
     products = None
     per_page = 3
 
     if category_slug != None:
-        category_page = get_object_or_404(Category, slug=category_slug)
+        # category_page = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(category=category_page, available=True)
     else:
         products = Product.objects.all().filter(available=True)
@@ -27,6 +45,14 @@ def home(request, category_slug=None, page_number=1):
     products_paginator = paginator.page(page_number)
 
     return render(request, 'home.html', {'category': category_page, 'products': products_paginator})
+
+
+class ProductDetailView(DetailView):
+    """Просмотр поста """
+    model = Product
+    slug_url_kwarg = 'product_slug'
+    template_name = 'product.html'
+    context_object_name = 'product'
 
 
 def product(request, category_slug, product_slug):
