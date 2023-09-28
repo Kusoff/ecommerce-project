@@ -33,7 +33,7 @@
                     <div class="card mb-5">
                         <div class="p-4">
                             {% for image in product.product_photos.all %}
-                                <a href="{{product.slug}}"><img class="card-img-top" src="{{ image.img.url }}" alt="{{ product.title }}"></a>
+                                <a href="{%url 'product_chort' product.slug%}"><img class="card-img-top" src="{{ image.img.url }}" alt="{{ product.title }}"></a>
                             {% endfor %}
 
 
