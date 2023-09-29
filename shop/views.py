@@ -1,50 +1,33 @@
 from django.contrib.auth.views import LoginView
-from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import *
-from django.contrib.auth import login, logout
+from django.contrib.auth import logout
 
 
 # Create your views here.
-class Test(ListView):
+class HomeListView(ListView):
     model = Product
-    template_name = 'test.html'
-    paginate_by = 1
-    context_object_name = 'products'
-
-
-class Category(ListView):
-    template_name = 'test.html'
-    paginate_by = 1
-    context_object_name = 'products'
+    template_name = 'home.html'
+    paginate_by = 3  # пагинация происходит под капотом
 
     def get_queryset(self):
-        category = self.kwargs['category_slug']
-        product = Product.objects.filter(category__slug=category)
-        return product
+        queryset = super(HomeListView, self).get_queryset()  # тот же самый  product = Product.objects.all()
+        category_id = self.kwargs.get('category_id')  # kwargs это входные данные в url в моем случае <id:category_id>
+        return queryset.filter(
+            category_id=category_id) if category_id else queryset  # queryset это сформированный список объектов, поэтому мы можем применить к нему фильтры
+        # #здесь мы проверям, что если id_категории поступает, то мы фильтруем, если нет, то возвращаем список товаров
 
-
-def home(request, category_slug=None, page_number=1):
-    category_page = None
-    products = None
-    per_page = 3
-
-    if category_slug != None:
-        # category_page = get_object_or_404(Category, slug=category_slug)
-        products = Product.objects.filter(category=category_page, available=True)
-    else:
-        products = Product.objects.all().filter(available=True)
-
-    paginator = Paginator(products, per_page)
-    products_paginator = paginator.page(page_number)
-
-    return render(request, 'home.html', {'category': category_page, 'products': products_paginator})
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(HomeListView, self).get_context_data()
+        context['title'] = 'Store - Каталог'
+        context['categories'] = Category.objects.all()
+        return context
 
 
 class ProductDetailView(DetailView):
@@ -53,18 +36,6 @@ class ProductDetailView(DetailView):
     slug_url_kwarg = 'product_slug'
     template_name = 'product.html'
     context_object_name = 'product'
-
-
-def product(request, category_slug, product_slug):
-    try:
-        product = Product.objects.get(category__slug=category_slug, slug=product_slug)
-        context = {
-            'product': product,
-
-        }
-    except Exception as e:
-        raise e
-    return render(request, 'product.html', context)
 
 
 def _cart_id(request):
@@ -127,16 +98,32 @@ def cart_remove_product(request, product_id):
     return redirect('cart_detail')
 
 
-class Registration(CreateView):
+class UserRegistrationView(CreateView):
     """Регистрация"""
+    model = Users
     form_class = SignUpForm
     template_name = 'signup.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('login')
 
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('home')
+    def get_context_data(self, **kwargs):
+        context = super(UserRegistrationView, self).get_context_data()
+        context['title'] = 'Store - Регистрация'
+        return context
+
+
+class UserProfileView(UpdateView):
+    model = Users
+    form_class = UserProfileForm
+    template_name = 'profile.html'
+
+    def get_success_url(self):
+        return reverse_lazy('profile', args=(self.object.id,))
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileView, self).get_context_data()
+        context['title'] = 'Store - Личный кабинет'
+        context['cart'] = Cart.objects.filter(user=self.object)
+        return context
 
 
 class Login(LoginView):
@@ -152,20 +139,19 @@ def signoutView(request):
     logout(request)
     return redirect('login')
 
-
-def profile(request):
-    if request.method == 'POST':
-        form = UserProfileForm(instance=request.user, data=request.POST, files=request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('profile'))
-        else:
-            print(form.errors)
-    form = UserProfileForm(instance=request.user)
-    user = Users.objects.get(id=request.user.id)
-    context = {
-        'title': 'Store - Профиль',
-        'form': form,
-        'user': user
-    }
-    return render(request, 'profile.html', context)
+# def profile(request):
+#     if request.method == 'POST':
+#         form = UserProfileForm(instance=request.user, data=request.POST, files=request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(reverse('profile'))
+#         else:
+#             print(form.errors)
+#     else:
+#         form = UserProfileForm(instance=request.user)
+#     context = {
+#         'title': 'Store - Профиль',
+#         'form': form,
+#         'cart': Cart.objects.filter(user=request.user),
+#     }
+#     return render(request, 'profile.html', context)

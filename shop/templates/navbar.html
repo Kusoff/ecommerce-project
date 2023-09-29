@@ -4,12 +4,13 @@
       <button class="navbar-toggler bg-light" data-bs-toggle="collapse" data-bs-target="#navbar"><span class="navbar-toggler-icon"></span></button>
       <div id="navbar" class="collapse navbar-collapse justify-content-between">
         <ul class="navbar-nav">
-          <li class ="nav-item dropdown"><a class ="nav-link
-                                            text-light text-uppercase font-weight-bold px-3
-                                            dropdown-toggle" data-bs-toggle="dropdown" href="">Categories
-          </a>
+          <li class ="nav-item dropdown">
+              <a class ="nav-link
+                text-light text-uppercase font-weight-bold px-3
+                dropdown-toggle" data-bs-toggle="dropdown" href="">Categories
+              </a>
               <div class ="dropdown-menu">
-                  <a class="dropdown-item" href="{% url 'home' %}">All products</a>
+                  <a class="dropdown-item" href="{% url 'home' %}">Все товары</a>
                   {% for category in links %}
                   <a class="dropdown-item" href="{{category.get_url}}">{{category.name}}</a>
                   {% endfor %}
@@ -18,7 +19,7 @@
           <li class ="nav-item"><a class ="nav-link text-light text-uppercase font-weight-bold px-3" href="">Contacts</a></li>
           <li class ="nav-item"><a class ="nav-link text-light text-uppercase font-weight-bold px-3" href="">About</a></li>
           {% if request.user.is_authenticated and request.user.first_name %}
-          <li class ="nav-item"><a class ="nav-link text-light text-uppercase font-weight-bold px-3" href="{% url 'profile' %}">Welcome,
+          <li class ="nav-item"><a class ="nav-link text-light text-uppercase font-weight-bold px-3" href="{% url 'profile' user.id %}">Welcome, <!--Отображаем id профиля пользователя с помощью user.id-->
               {{ request.user.first_name }}!<span class="material-icons cart-icon">account_circle</span></a></li>
 
           <li class ="nav-item"><a class ="nav-link text-light text-uppercase font-weight-bold px-3" href="{% url 'signout' %}">Sign Out
