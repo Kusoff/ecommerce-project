@@ -3,18 +3,21 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from django.contrib.messages.views import SuccessMessageMixin
 
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import *
 from django.contrib.auth import logout
+from common.views import TitleMixin
 
 
 # Create your views here.
-class HomeListView(ListView):
+class HomeListView(TitleMixin, ListView):
     model = Product
     template_name = 'home.html'
     paginate_by = 3  # пагинация происходит под капотом
+    title = 'Store'
 
     def get_queryset(self):
         queryset = super(HomeListView, self).get_queryset()  # тот же самый  product = Product.objects.all()
@@ -25,7 +28,6 @@ class HomeListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(HomeListView, self).get_context_data()
-        context['title'] = 'Store - Каталог'
         context['categories'] = Category.objects.all()
         return context
 
@@ -98,34 +100,27 @@ def cart_remove_product(request, product_id):
     return redirect('cart_detail')
 
 
-class UserRegistrationView(CreateView):
+class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
     """Регистрация"""
     model = Users
     form_class = SignUpForm
     template_name = 'signup.html'
     success_url = reverse_lazy('login')
-
-    def get_context_data(self, **kwargs):
-        context = super(UserRegistrationView, self).get_context_data()
-        context['title'] = 'Store - Регистрация'
-        return context
+    success_message = 'Вы успешно зарегистрированы'
+    title = 'Store - Регистрация'
 
 
-class UserProfileView(UpdateView):
+class UserProfileView(TitleMixin, UpdateView):
     model = Users
     form_class = UserProfileForm
     template_name = 'profile.html'
+    title = 'Store - Личный кабинет'
 
     def get_success_url(self):
         return reverse_lazy('profile', args=(self.object.id,))
 
-    def get_context_data(self, **kwargs):
-        context = super(UserProfileView, self).get_context_data()
-        context['title'] = 'Store - Личный кабинет'
-        return context
 
-
-class Login(LoginView):
+class UserLoginView(LoginView):
     """Авторизация"""
     form_class = LoginForm
     template_name = 'login.html'
@@ -137,20 +132,3 @@ class Login(LoginView):
 def signoutView(request):
     logout(request)
     return redirect('login')
-
-# def profile(request):
-#     if request.method == 'POST':
-#         form = UserProfileForm(instance=request.user, data=request.POST, files=request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect(reverse('profile'))
-#         else:
-#             print(form.errors)
-#     else:
-#         form = UserProfileForm(instance=request.user)
-#     context = {
-#         'title': 'Store - Профиль',
-#         'form': form,
-#         'cart': Cart.objects.filter(user=request.user),
-#     }
-#     return render(request, 'profile.html', context)

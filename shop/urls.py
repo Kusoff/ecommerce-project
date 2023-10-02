@@ -11,7 +11,7 @@ urlpatterns = [
     path('cart/remove/<int:product_id>', views.cart_remove, name='cart_remove'),
     path('cart/remove_product/<int:product_id>', views.cart_remove_product, name='cart_remove_product'),
     path('account/create/', views.UserRegistrationView.as_view(), name='signup'),
-    path('account/login/', views.Login.as_view(), name='login'),
+    path('account/login/', views.UserLoginView.as_view(), name='login'),
     path('account/signout/', views.signoutView, name='signout'),
     path('profile/<int:pk>/', views.UserProfileView.as_view(), name='profile'), #UserProfileForm наследуется от класса UpdateView, который работает с конкреиным объектом, поэтому нужен его id
 
