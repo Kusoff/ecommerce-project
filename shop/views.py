@@ -61,7 +61,7 @@ def add_cart(request, product_id):
         cart_item = CartItem.objects.create(product=product, quantity=1, cart=cart)
         cart_item.save()
 
-    return redirect('cart_detail')
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 def cart_detail(request, total=0, counter=0, cart_items=None):
@@ -122,7 +122,6 @@ class UserProfileView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UserProfileView, self).get_context_data()
         context['title'] = 'Store - Личный кабинет'
-        context['cart'] = Cart.objects.filter(user=self.object)
         return context
 
 

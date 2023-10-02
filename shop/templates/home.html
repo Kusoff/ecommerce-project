@@ -1,4 +1,4 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 
 {% load static %}
 
@@ -32,13 +32,16 @@
                     </ol>
                     <div class="carousel-inner" role="listbox">
                         <div class="carousel-item active">
-                            <img class="d-block img-fluid" src="{% static 'vendor/media/slides/slide-1.jpg' %}" alt="First slide">
+                            <img class="d-block img-fluid" src="{% static 'vendor/media/slides/slide-1.jpg' %}"
+                                 alt="First slide">
                         </div>
                         <div class="carousel-item">
-                            <img class="d-block img-fluid" src="{% static 'vendor/media/slides/slide-2.jpg' %}" alt="Second slide">
+                            <img class="d-block img-fluid" src="{% static 'vendor/media/slides/slide-2.jpg' %}"
+                                 alt="Second slide">
                         </div>
                         <div class="carousel-item">
-                            <img class="d-block img-fluid" src="{% static 'vendor/media/slides/slide-3.jpg' %}" alt="Third slide">
+                            <img class="d-block img-fluid" src="{% static 'vendor/media/slides/slide-3.jpg' %}"
+                                 alt="Third slide">
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -52,24 +55,30 @@
                 </div>
             </div>
 
-            {% for product in object_list%} <!--object_list это ключ который создается под капотом когда мы объявляем get_queryset-->
+            {% for product in object_list %}
+                <!--object_list это ключ который создается под капотом когда мы объявляем get_queryset-->
                 <div class="col-9 mx-auto col-md-6, col-lg-3">
                     <div class="card mb-5">
                         <div class="p-4">
                             {% for image in product.product_photos.all %}
-                                <a href="{{ product.get_url }}"><img class="card-img-top" src="{{ image.img.url }}" alt="{{ product.title }}"></a>
+                                <a href="{{ product.get_url }}"><img class="card-img-top" src="{{ image.img.url }}"
+                                                                     alt="{{ product.title }}"></a>
                             {% endfor %}
 
 
                         </div>
 
-                        <div class="card-footer d-flex justify-content-between" style="background: transparent; border-color: transparent;">
+                        <div class="card-footer d-flex justify-content-between"
+                             style="background: transparent; border-color: transparent;">
                             <p class="font-weight-bold mb-0">
                                 {{ product.name|truncatechars:30 }}
                             </p>
-                            <h5 class="text-info font-italic mb-0">
-                                 ₽{{ product.price }}
-                            </h5>
+                            <div>
+                                <h5 class="text-info font-italic mb-0" style="display: inline;">
+                                    ₽{{ product.price }}
+                                </h5>
+                                <a href="{% url 'add_cart' product.id %}" class="ml-2"><i class="fa-solid fa-cart-shopping"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,32 +86,32 @@
 
 
             {% if is_paginated %}
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}"> <!--page_obj это ключ который создается под капотом когда
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}"> <!--page_obj это ключ который создается под капотом когда
                                                                                                                                     мы объявляем paginate_by-->
-                        <a class="page-link"
-                           href="{% if page_obj.has_previous %} {% url 'paginator' page_obj.previous_page_number %} {% else %} # {% endif %}"
-                           tabindex="-1" aria-disabled="true">
-                            Предыдущая
-                        </a>
-                    </li>
-                    {% for page in paginator.page_range %}
-                        <li class="page-item">
-                            <a class="page-link" href="{% url 'paginator' page %}">
-                                {{ page }}
+                            <a class="page-link"
+                               href="{% if page_obj.has_previous %} {% url 'paginator' page_obj.previous_page_number %} {% else %} # {% endif %}"
+                               tabindex="-1" aria-disabled="true">
+                                Предыдущая
                             </a>
                         </li>
-                    {% endfor %}
-                    <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
-                        <a class="page-link"
-                            href="{% if page_obj.has_next %} {% url 'paginator' page_obj.next_page_number %} {% else %} # {% endif %}">
-                            Следующая
-                        </a>
-                    </li>
+                        {% for page in paginator.page_range %}
+                            <li class="page-item">
+                                <a class="page-link" href="{% url 'paginator' page %}">
+                                    {{ page }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                        <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
+                            <a class="page-link"
+                               href="{% if page_obj.has_next %} {% url 'paginator' page_obj.next_page_number %} {% else %} # {% endif %}">
+                                Следующая
+                            </a>
+                        </li>
 
-                </ul>
-            </nav>
+                    </ul>
+                </nav>
 
             {% endif %}
 
