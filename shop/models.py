@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from autoslug import AutoSlugField
 from sortedm2m.fields import SortedManyToManyField
+from django.core.mail import send_mail
 
 
 # Create your models here.
@@ -11,7 +12,7 @@ class Users(AbstractUser):
     phone = models.CharField(max_length=20, verbose_name="Телефон", unique=True, blank=True)
     slug = AutoSlugField(populate_from='username', unique=True, db_index=True, verbose_name='URL', )
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
-    mailing_list = models.BooleanField(default=False, blank=True, verbose_name='Рассылка')
+    is_verified_email = models.BooleanField(default=False)
     address = models.CharField(max_length=150, blank=True, verbose_name='Адрес', )
     user_photo = models.ImageField(upload_to='user_photo/%Y/%m/%d/', verbose_name='Аватарка', blank=True, null=True)
 
@@ -21,6 +22,25 @@ class Users(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class EmailVerification(models.Model):
+    code = models.UUIDField(unique=True)
+    user = models.ForeignKey(to=Users, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    expiration = models.DateTimeField()
+
+    def __str__(self):
+        return f'EmailVerification object for {self.user.email}'
+
+    def send_verification_email(self):
+        send_mail(
+            "Subject here",
+            "Test verification email.",
+            "from@example.com",
+            [self.user.email],
+            fail_silently=False,
+        )
 
 
 class Characteristic(models.Model):
@@ -161,14 +181,3 @@ class Comments(models.Model):
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
         ordering = ['rating']
-
-
-class Emails(models.Model):
-    email = models.EmailField(verbose_name='Почта')
-
-    def __str__(self):
-        return self.email
-
-    class Meta:
-        verbose_name = 'Неоправленное письмо'
-        verbose_name_plural = 'Неоправленные письма'

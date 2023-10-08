@@ -6,11 +6,11 @@ from django.utils.safestring import mark_safe
 # Register your models here.
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'last_login', 'username', 'email', 'phone', 'is_staff', 'mailing_list')
+    list_display = ('id', 'last_login', 'username', 'email', 'phone', 'is_staff',)
     list_display_links = ('id', 'last_login', 'username', 'email', 'phone',)
     search_fields = ('id', 'username', 'phone', 'email')
     list_filter = ('is_staff',)
-    list_editable = ('is_staff', 'mailing_list')
+    list_editable = ('is_staff',)
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -84,14 +84,15 @@ class CommentsAdmin(admin.ModelAdmin):
     search_fields = ('user', 'product')
 
 
-class EmailsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'email')
-    list_display_links = ('id', 'email')
-
-
 class CharacteristicAdmin(admin.ModelAdmin):
     list_display = ('id', 'characteristic_name', 'value')
     list_display_links = ('id', 'characteristic_name')
+
+
+class EmailVerificationAdmin(admin.ModelAdmin):
+    list_display = ('code', 'user', 'expiration')
+    fields = ('code', 'user', 'expiration', 'created')
+    readonly_fields = ('created',)
 
 
 admin.site.register(Category, CategoryAdmin)
@@ -101,5 +102,5 @@ admin.site.register(Users, UserAdmin)
 admin.site.register(Discount_For_Product_Category, Discount_For_Product_CategoryAdmin)
 admin.site.register(Product_Images, Product_ImagesAdmin)
 admin.site.register(Comments, CommentsAdmin)
-admin.site.register(Emails, EmailsAdmin)
 admin.site.register(Characteristic, CharacteristicAdmin)
+admin.site.register(EmailVerification, EmailVerificationAdmin)

@@ -103,7 +103,7 @@ def cart_remove_product(request, product_id):
 class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
     """Регистрация"""
     model = Users
-    form_class = SignUpForm
+    form_class = UserRegistrationForm
     template_name = 'signup.html'
     success_url = reverse_lazy('login')
     success_message = 'Вы успешно зарегистрированы'
@@ -122,7 +122,7 @@ class UserProfileView(TitleMixin, UpdateView):
 
 class UserLoginView(LoginView):
     """Авторизация"""
-    form_class = LoginForm
+    form_class = UserLoginForm
     template_name = 'login.html'
 
     def get_success_url(self):

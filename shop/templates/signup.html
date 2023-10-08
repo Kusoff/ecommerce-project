@@ -2,50 +2,125 @@
 
 {% load static %}
 
-{% load crispy_forms_tags %}
-
 {% block title %}
-    Create New Account
+    Регистрация
 {% endblock %}
 
 {% block content %}
 
-    <div>
-        {% if not form.is_valid %}
-            <div>
-                <br>
-                <h1 class="product_title text-center">
-                    Create a new account
-                </h1>
-                <br>
-                <div class="col-9 col-sm-9 col-md-6 col-lg-5 mx-auto bg-light">
-                    <br>
-                    <p>Please input the following information to create a new account</p>
-                    <form method="post">
-                        {% csrf_token %}
-                        <p>{{ form | crispy }}</p>
-                        <button type="submit" name="button" class="btn btn-secondary">SignUp</button>
-                    </form>
+<body class="bg-primary">
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        {% if form.errors %}
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert"
+                                 style="margin-top: 50px;">
+                                {{ form.errors }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
 
+                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card-header"><h3 class="text-center font-weight-light my-4">Создать аккаунт</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="{% url 'signup' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="{{ form.first_name.id_for_label }}">
+                                                    Имя
+                                                </label>
+                                                {{ form.first_name }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="{{ form.last_name.id_for_label }}">
+                                                    Фамилия
+                                                </label>
+                                                {{ form.last_name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="{{ form.username.id_for_label }}">
+                                                Имя пользователя
+                                            </label>
+                                            {{ form.username }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="{{ form.email.id_for_label }}">
+                                                Адрес электронной почты
+                                            </label>
+                                            {{ form.email }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="{{ form.phone.id_for_label }}">
+                                                    Номер телефона
+                                                </label>
+                                                {{ form.phone }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="{{ form.address.id_for_label }}">
+                                                    Адрес
+                                                </label>
+                                                {{ form.address }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mx-auto"> <!-- mx-auto центрует это поле -->
+                                            <div class="form-group text-center"> <!-- text-center текст по центру-->
+                                                <label class="small mb-1" for="{{ form.birthday.id_for_label }}">
+                                                    Дата рождения
+                                                </label>
+                                                {{ form.birthday }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="{{ form.password1.id_for_label }}">
+                                                    Пароль
+                                                </label>
+                                                {{ form.password1 }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="{{ form.password2.id_for_label }}">
+                                                    Подтверждение пароля
+                                                </label>
+                                                {{ form.password2 }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-4 mb-0">
+                                        <input class="btn btn-primary btn-block" type="submit" value="Создать аккаунт">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer text-center">
+                                <div class="small"><a href="{% url 'login' %}">Уже есть аккаунт? Авторизоваться</a></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        {% else %}
-        <div class="mx-auto">
-            <br>
-            <h1 class="product_title text-center">
-                Your account has been successfully created
-            </h1>
-            <br>
-            <div>
-                <p>Your account has been created and ready to use!</p>
-                <br>
-                <a href="{% url 'home' %}">Continue shopping</a>
-            </div>
-        </div>
-        {% endif %}
+        </main>
     </div>
-
-
-
+</div>
 
 {% endblock %}
