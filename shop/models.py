@@ -4,6 +4,9 @@ from django.contrib.auth.models import AbstractUser
 from autoslug import AutoSlugField
 from sortedm2m.fields import SortedManyToManyField
 from django.core.mail import send_mail
+from django.utils.timezone import now
+
+from ecommerce import settings
 
 
 # Create your models here.
@@ -34,13 +37,23 @@ class EmailVerification(models.Model):
         return f'EmailVerification object for {self.user.email}'
 
     def send_verification_email(self):
+        link = reverse('email_verification', kwargs={'email': self.user.email, 'code': self.code})
+        verification_link = f'{settings.DOMAIN_NAME}{link}'
+        subject = f'Подтверждение учетной записи для {self.user.username}'
+        message = 'Для подтверждения учетной записи для {} перейдите по ссылке: {}'.format(
+            self.user.email,
+            verification_link
+        )
         send_mail(
-            "Subject here",
-            "Test verification email.",
-            "from@example.com",
-            [self.user.email],
+            subject=subject,
+            message=message,
+            from_email="from@example.com",
+            recipient_list=[self.user.email],
             fail_silently=False,
         )
+
+    def is_expired(self):  # метод который проверяет просрочена ссылка или нет
+        return True if now() >= self.expiration else False
 
 
 class Characteristic(models.Model):
