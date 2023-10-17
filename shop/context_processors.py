@@ -1,4 +1,4 @@
-from .models import Category, Cart, CartItem
+from .models import Cart, CartItem, Category
 from .views import _cart_id
 
 

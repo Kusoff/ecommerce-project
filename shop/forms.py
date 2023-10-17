@@ -1,12 +1,12 @@
 import uuid
 from datetime import timedelta
 
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
-from .models import Users, EmailVerification
+from django import forms
+from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
+                                       UserCreationForm)
 from django.utils.timezone import now
 
-from django import forms
-from django.contrib.auth.models import User
+from .models import EmailVerification, Users
 
 
 class UserRegistrationForm(UserCreationForm):

@@ -4,3 +4,5 @@ psycopg2-binary==2.9.5
 django-crispy-forms==2.0
 crispy-bootstrap5==0.7
 django-autoslug==1.9.9
+flake8==6.1.0
+isort==5.12.0

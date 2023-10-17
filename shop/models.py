@@ -1,13 +1,12 @@
+from autoslug import AutoSlugField
+from django.contrib.auth.models import AbstractUser
+from django.core.mail import send_mail
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import AbstractUser
-from autoslug import AutoSlugField
-from sortedm2m.fields import SortedManyToManyField
-from django.core.mail import send_mail
 from django.utils.timezone import now
+from sortedm2m.fields import SortedManyToManyField
 
 from ecommerce import settings
-
 
 # Create your models here.
 

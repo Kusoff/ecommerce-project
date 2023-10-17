@@ -1,4 +1,5 @@
 from django.urls import path
+
 from . import views
 
 urlpatterns = [
@@ -13,7 +14,8 @@ urlpatterns = [
     path('account/create/', views.UserRegistrationView.as_view(), name='signup'),
     path('account/login/', views.UserLoginView.as_view(), name='login'),
     path('account/signout/', views.signoutView, name='signout'),
-    path('profile/<int:pk>/', views.UserProfileView.as_view(), name='profile'), #UserProfileForm наследуется от класса UpdateView, который работает с конкреиным объектом, поэтому нужен его id
+    path('profile/<int:pk>/', views.UserProfileView.as_view(), name='profile'),
+    # UserProfileForm наследуется от класса UpdateView, который работает с конкреиным объектом, поэтому нужен его id
     path('verify/<str:email>/<uuid:code>/', views.EmailVerificationView.as_view(), name='email_verification'),
 
 ]

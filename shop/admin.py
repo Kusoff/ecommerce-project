@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import *
 from django.utils.safestring import mark_safe
 
+from shop.models import (Cart, Category, Characteristic, Comments,
+                         Discount_For_Product_Category, EmailVerification,
+                         Manufacturer, Product, Product_Images, Users)
 
 # Register your models here.
 

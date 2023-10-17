@@ -1,15 +1,17 @@
-from django.contrib.auth.views import LoginView
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, TemplateView
-from django.contrib.messages.views import SuccessMessageMixin
-
-from .models import *
-from django.core.exceptions import ObjectDoesNotExist
-from .forms import *
 from django.contrib.auth import logout
+from django.contrib.auth.views import LoginView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse, reverse_lazy
+from django.views.generic import (CreateView, DetailView, ListView,
+                                  TemplateView, UpdateView)
+
 from common.views import TitleMixin
+from shop.forms import UserLoginForm, UserProfileForm, UserRegistrationForm
+from shop.models import (Cart, CartItem, Category, EmailVerification, Product,
+                         Users)
 
 
 # Create your views here.
@@ -23,7 +25,8 @@ class HomeListView(TitleMixin, ListView):
         queryset = super(HomeListView, self).get_queryset()  # тот же самый  product = Product.objects.all()
         category_id = self.kwargs.get('category_id')  # kwargs это входные данные в url в моем случае <id:category_id>
         return queryset.filter(
-            category_id=category_id) if category_id else queryset  # queryset это сформированный список объектов, поэтому мы можем применить к нему фильтры
+            category_id=category_id) if category_id else queryset  # queryset это сформированный список объектов,
+        # поэтому мы можем применить к нему фильтры
         # #здесь мы проверям, что если id_категории поступает, то мы фильтруем, если нет, то возвращаем список товаров
 
     def get_context_data(self, *, object_list=None, **kwargs):
