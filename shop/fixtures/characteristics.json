@@ -1,0 +1,26 @@
+[
+  {
+    "model": "shop.characteristic",
+    "pk": 1,
+    "fields": {
+      "characteristic_name": "Сезон",
+      "value": "Осень"
+    }
+  },
+  {
+    "model": "shop.characteristic",
+    "pk": 3,
+    "fields": {
+      "characteristic_name": "Сезон",
+      "value": "Демисезон"
+    }
+  },
+  {
+    "model": "shop.characteristic",
+    "pk": 4,
+    "fields": {
+      "characteristic_name": "Сезон",
+      "value": "Весна-Лето"
+    }
+  }
+]

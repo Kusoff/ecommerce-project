@@ -1,0 +1,62 @@
+[
+  {
+    "model": "shop.product_images",
+    "pk": 1,
+    "fields": {
+      "img_name": "tnf",
+      "img": "img_product/2023/10/18/Blue-jacket-The-North-Face.png",
+      "first_img": false,
+      "slug": "tnf"
+    }
+  },
+  {
+    "model": "shop.product_images",
+    "pk": 2,
+    "fields": {
+      "img_name": "Худи",
+      "img": "img_product/2023/10/20/Adidas-hoodie.png",
+      "first_img": false,
+      "slug": "hudi"
+    }
+  },
+  {
+    "model": "shop.product_images",
+    "pk": 3,
+    "fields": {
+      "img_name": "asos trousers",
+      "img": "img_product/2023/10/20/Dark-blue-wide-leg-ASOs-DESIGN-trousers.png",
+      "first_img": false,
+      "slug": "asos-trousers"
+    }
+  },
+  {
+    "model": "shop.product_images",
+    "pk": 4,
+    "fields": {
+      "img_name": "nike backpack",
+      "img": "img_product/2023/10/20/Black-Nike-Heritage-backpack.png",
+      "first_img": false,
+      "slug": "nike-backpack"
+    }
+  },
+  {
+    "model": "shop.product_images",
+    "pk": 5,
+    "fields": {
+      "img_name": "Black-Dr-Martens-shoes",
+      "img": "img_product/2023/10/20/Black-Dr-Martens-shoes.png",
+      "first_img": false,
+      "slug": "black-dr-martens-shoes"
+    }
+  },
+  {
+    "model": "shop.product_images",
+    "pk": 6,
+    "fields": {
+      "img_name": "Brown-sports-oversized-top-ASOS-DESIGN",
+      "img": "img_product/2023/10/20/Brown-sports-oversized-top-ASOS-DESIGN.png",
+      "first_img": false,
+      "slug": "brown-sports-oversized-top-asos-design"
+    }
+  }
+]

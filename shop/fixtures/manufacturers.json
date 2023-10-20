@@ -1,0 +1,52 @@
+[
+  {
+    "model": "shop.manufacturer",
+    "pk": 1,
+    "fields": {
+      "manufacturer_name": "The North Face",
+      "country": "США",
+      "slug": "the-north-face",
+      "photo": "shop/static/img/favicon.svg"
+    }
+  },
+  {
+    "model": "shop.manufacturer",
+    "pk": 2,
+    "fields": {
+      "manufacturer_name": "Adidas Originals",
+      "country": "США",
+      "slug": "adidas",
+      "photo": "shop/static/img/favicon.svg"
+    }
+  },
+  {
+    "model": "shop.manufacturer",
+    "pk": 3,
+    "fields": {
+      "manufacturer_name": "ASOS",
+      "country": "Вьетнам",
+      "slug": "asos",
+      "photo": "shop/static/img/favicon.svg"
+    }
+  },
+  {
+    "model": "shop.manufacturer",
+    "pk": 4,
+    "fields": {
+      "manufacturer_name": "Nike",
+      "country": "США",
+      "slug": "nike",
+      "photo": "shop/static/img/favicon.svg"
+    }
+  },
+  {
+    "model": "shop.manufacturer",
+    "pk": 5,
+    "fields": {
+      "manufacturer_name": "Dr Martens",
+      "country": "Великобритания",
+      "slug": "dr-martens",
+      "photo": "shop/static/img/favicon.svg"
+    }
+  }
+]

@@ -1,1 +1,134 @@
-[{"model": "shop.product", "pk": 2, "fields": {"name": "Синяя куртка The North Face", "slug": "sinyaya-kurtka-the-north-face", "description": "Гладкая ткань. Водонепроницаемое покрытие. Легкий и теплый пуховый наполнитель.", "manufacturer": 2, "category": 1, "price": "23725", "stock": 5, "available": true, "created": "2023-09-22T15:36:20.623Z", "updated": "2023-09-22T15:36:20.623Z", "product_photos": [2], "product_characteristic": [1]}}, {"model": "shop.product", "pk": 3, "fields": {"name": "Коричневый спортивный oversized-топ ASOS DESIGN", "slug": "korichnevyj-sportivnyj-oversized-top-asos-design", "description": "Материал с плюшевой текстурой. Удобный и мягкий.", "manufacturer": 3, "category": 1, "price": "3390", "stock": 7, "available": true, "created": "2023-09-22T16:04:41.658Z", "updated": "2023-09-22T16:04:41.658Z", "product_photos": [3], "product_characteristic": [1]}}, {"model": "shop.product", "pk": 4, "fields": {"name": "Черный рюкзак Nike Heritage", "slug": "chernyj-ryukzak-nike-heritage", "description": "Плотная ткань. Легкий материал.", "manufacturer": 4, "category": 2, "price": "2340", "stock": 15, "available": true, "created": "2023-09-22T18:05:50.773Z", "updated": "2023-09-22T18:05:50.773Z", "product_photos": [4], "product_characteristic": [2]}}, {"model": "shop.product", "pk": 5, "fields": {"name": "Черные туфли на платформе с 3 парами люверсов Dr Martens 1461 Bex", "slug": "chernye-tufli-na-platforme-s-3-parami-lyuversov-dr-martens-1461-bex", "description": "Гладкий кожаный верх. Натуральный материал.", "manufacturer": 5, "category": 3, "price": "13590", "stock": 7, "available": true, "created": "2023-09-22T18:38:51.145Z", "updated": "2023-09-22T18:38:51.145Z", "product_photos": [5], "product_characteristic": [3]}}]
+[
+  {
+    "model": "shop.product",
+    "pk": 1,
+    "fields": {
+      "name": "РЎРёРЅСЏСЏ РєСѓСЂС‚РєР° The North Face",
+      "slug": "sinyaya-kurtka-the-north-face",
+      "description": "Р“Р»Р°РґРєР°СЏ С‚РєР°РЅСЊ. Р’РѕРґРѕРЅРµРїСЂРѕРЅРёС†Р°РµРјРѕРµ РїРѕРєСЂС‹С‚РёРµ. Р›РµРіРєРёР№ Рё С‚РµРїР»С‹Р№ РїСѓС…РѕРІС‹Р№ РЅР°РїРѕР»РЅРёС‚РµР»СЊ.",
+      "manufacturer": 1,
+      "category": 1,
+      "price": "23725",
+      "stock": 11,
+      "available": true,
+      "created": "2023-10-18T19:55:18.155Z",
+      "updated": "2023-10-18T19:55:18.155Z",
+      "product_photos": [
+        1
+      ],
+      "product_characteristic": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 2,
+    "fields": {
+      "name": "РҐСѓРґРё С‡РµСЂРЅРѕРіРѕ С†РІРµС‚Р° СЃ РјРѕРЅРѕРіСЂР°РјРјР°РјРё adidas Originals",
+      "slug": "hudi-chernogo-cveta-s-monogrammami-adidas-originals",
+      "description": "РњСЏРіРєР°СЏ С‚РєР°РЅСЊ РґР»СЏ СЃРІРёС‚С€РѕС‚РѕРІ. РЎС‚РёР»СЊ Рё РєРѕРјС„РѕСЂС‚ вЂ“ СЌС‚Рѕ РѕР±СЂР°Р· Р¶РёР·РЅРё.",
+      "manufacturer": 2,
+      "category": 1,
+      "price": "6090",
+      "stock": 19,
+      "available": true,
+      "created": "2023-10-20T16:39:03.382Z",
+      "updated": "2023-10-20T16:39:03.382Z",
+      "product_photos": [
+        2
+      ],
+      "product_characteristic": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 3,
+    "fields": {
+      "name": "РљРѕСЂРёС‡РЅРµРІС‹Р№ СЃРїРѕСЂС‚РёРІРЅС‹Р№ oversized-С‚РѕРї ASOS DESIGN",
+      "slug": "korichnevyj-sportivnyj-oversized-top-asos-design",
+      "description": "РњР°С‚РµСЂРёР°Р» СЃ РїР»СЋС€РµРІРѕР№ С‚РµРєСЃС‚СѓСЂРѕР№. РЈРґРѕР±РЅС‹Р№ Рё РјСЏРіРєРёР№.",
+      "manufacturer": 3,
+      "category": 1,
+      "price": "3390",
+      "stock": 16,
+      "available": true,
+      "created": "2023-10-20T16:40:01.551Z",
+      "updated": "2023-10-20T16:40:01.551Z",
+      "product_photos": [
+        6
+      ],
+      "product_characteristic": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 4,
+    "fields": {
+      "name": "Р§РµСЂРЅС‹Р№ СЂСЋРєР·Р°Рє Nike Heritage",
+      "slug": "chernyj-ryukzak-nike-heritage",
+      "description": "РџР»РѕС‚РЅР°СЏ С‚РєР°РЅСЊ. Р›РµРіРєРёР№ РјР°С‚РµСЂРёР°Р».",
+      "manufacturer": 4,
+      "category": 2,
+      "price": "2340",
+      "stock": 8,
+      "available": true,
+      "created": "2023-10-20T16:40:41.574Z",
+      "updated": "2023-10-20T16:40:41.574Z",
+      "product_photos": [
+        4
+      ],
+      "product_characteristic": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 5,
+    "fields": {
+      "name": "Р§РµСЂРЅС‹Рµ С‚СѓС„Р»Рё РЅР° РїР»Р°С‚С„РѕСЂРјРµ СЃ 3 РїР°СЂР°РјРё Р»СЋРІРµСЂСЃРѕРІ Dr Martens 1461 Bex",
+      "slug": "chernye-tufli-na-platforme-s-3-parami-lyuversov-dr-martens-1461-bex",
+      "description": "Р“Р»Р°РґРєРёР№ РєРѕР¶Р°РЅС‹Р№ РІРµСЂС…. РќР°С‚СѓСЂР°Р»СЊРЅС‹Р№ РјР°С‚РµСЂРёР°Р».",
+      "manufacturer": 5,
+      "category": 3,
+      "price": "13590",
+      "stock": 12,
+      "available": true,
+      "created": "2023-10-20T16:41:53.149Z",
+      "updated": "2023-10-20T16:41:53.149Z",
+      "product_photos": [
+        5
+      ],
+      "product_characteristic": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 6,
+    "fields": {
+      "name": "РўРµРјРЅРѕ-СЃРёРЅРёРµ С€РёСЂРѕРєРёРµ СЃС‚СЂРѕРіРёРµ Р±СЂСЋРєРё ASOS DESIGN",
+      "slug": "temno-sinie-shirokie-strogie-bryuki-asos-design",
+      "description": "Р›РµРіРєР°СЏ СЌР»Р°СЃС‚РёС‡РЅР°СЏ С‚РєР°РЅСЊ СЃРёСЂСЃР°РєРµСЂ Р¤Р°РєС‚СѓСЂРЅР°СЏ С‚РєР°РЅСЊ.",
+      "manufacturer": 3,
+      "category": 4,
+      "price": "2890",
+      "stock": 14,
+      "available": true,
+      "created": "2023-10-20T16:45:54.133Z",
+      "updated": "2023-10-20T16:45:54.133Z",
+      "product_photos": [
+        3
+      ],
+      "product_characteristic": [
+        3
+      ]
+    }
+  }
+]
