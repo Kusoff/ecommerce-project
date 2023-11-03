@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (CreateView, DetailView, ListView,
                                   TemplateView, UpdateView)
+from django.core.cache import cache
 
 from common.views import TitleMixin
 from shop.forms import UserLoginForm, UserProfileForm, UserRegistrationForm
