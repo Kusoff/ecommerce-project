@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load static %}
+{% load static cache %}
 
 {% block title %}
     Home
@@ -54,8 +54,8 @@
                     </a>
                 </div>
             </div>
-
-            {% for product in object_list %}
+            {% cache 30 object_list %}
+                {% for product in object_list %}
                 <!--object_list это ключ который создается под капотом когда мы объявляем get_queryset-->
                 <div class="col-9 mx-auto col-md-6, col-lg-3">
                     <div class="card mb-5">
@@ -83,6 +83,8 @@
                     </div>
                 </div>
             {% endfor %}
+            {% endcache %}
+
 
 
             {% if is_paginated %}

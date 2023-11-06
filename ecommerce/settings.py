@@ -107,25 +107,25 @@ CACHES = {
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'store_db',
-#         'USER': 'store_username',
-#         'PASSWORD': 'store_password',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#         'OPTIONS': {
-#             'client_encoding': 'UTF8',  # Установите UTF-8
-#         }
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'ecommercedb.sqlite3'
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'store_db',
+        'USER': 'store_username',
+        'PASSWORD': 'store_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'OPTIONS': {
+            'client_encoding': 'UTF8',  # Установите UTF-8
+        }
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'ecommercedb.sqlite3'
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -180,14 +180,14 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 AUTH_USER_MODEL = 'shop.Users'
 
 # подключение почты
-# EMAIL_HOST = 'smtp.yandex.com'
-# EMAIL_PORT = 465
-# EMAIL_USE_TLS = False
-# EMAIL_USE_SSL = True
-#
-# EMAIL_HOST_USER = 'st0re-server-shop@yandex.ru'
-# EMAIL_HOST_PASSWORD = 'tmqfcxljkjpslqhs'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.com'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = 'st0re-server-shop@yandex.ru'
+EMAIL_HOST_PASSWORD = 'tmqfcxljkjpslqhs'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # OAuth
 AUTHENTICATION_BACKENDS = [
@@ -196,7 +196,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-
 
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
@@ -207,3 +206,49 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 LOGIN_REDIRECT_URL = 'home'
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+
+    "handlers": {
+
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+
+        },
+        "file": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "filename": "logging.log",
+            "formatter": "verbose"
+
+        },
+    },
+    "loggers": {
+        "shop.tasks": {
+            "handlers": ['file'],
+            "level": "WARNING",
+            "propagate": True,
+        },
+    },
+}
