@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="/vendor/css/auth.css" rel="stylesheet"/>
+    <link href="{% static 'vendor/css/auth.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/css/products.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/css/profile.css' %}" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"
             crossorigin="anonymous"></script>
 
@@ -27,13 +29,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jolly+Lodger&family=Lora&display=swap" rel="stylesheet">
 
+    <!-- Ссылки на ваши стилевые файлы -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/cart.css' %}">
-
-    <style type="text/css">
-      .material-icons.md-36 { font-size: 48px; }
-      .margin_nav {margin-left: 20px}
-    </style>
 
   </head>
 
@@ -41,8 +39,10 @@
 
     {% include 'navbar.html' %}
 
-    {% block content %}
-    {% endblock %}
+    <div id="content-container" style="margin-top: 5px;">
+        {% block content %}
+        {% endblock %}
+    </div>
 
     {% include 'footer.html' %}
 

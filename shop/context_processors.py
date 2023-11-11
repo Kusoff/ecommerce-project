@@ -20,3 +20,8 @@ def counter(request):
 def menu_links(request):
     links = Category.objects.all()
     return dict(links=links)
+
+
+def baskets(request):
+    user = request.user
+    return {'baskets': Cart.objects.filter(user=user) if user.is_authenticated else []}

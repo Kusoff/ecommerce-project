@@ -44,12 +44,15 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
 
-    'shop',
     'crispy_forms',
     'crispy_bootstrap5',
     'company_orders',
     'sortedm2m',
     'debug_toolbar',
+
+    'orders',
+    'shop',
+
 ]
 
 MIDDLEWARE = [

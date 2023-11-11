@@ -105,12 +105,20 @@
                     </tbody>
                 </table>
                 <div class="mx-auto">
-                    <a href="{% url 'home' %}" style="text-decoration: none">
-                        <button type="button" class="btn btn-lg btn-block bg-dark text-white">
-                            Back to Products
-                        </button>
-                    </a>
-
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a class="btn btn-success btn-lg btn-block float-right" href="{% url 'orders:order_create' %}">
+                                Оформить заказ
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'home' %}" style="text-decoration: none">
+                                <button type="button" class="btn btn-lg btn-block bg-dark text-white">
+                                    Back to Products
+                                </button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
