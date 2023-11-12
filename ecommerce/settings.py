@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.humanize',
 
     'allauth',
     'allauth.account',
@@ -84,6 +85,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'shop.context_processors.menu_links',
                 'shop.context_processors.counter',
+                'shop.context_processors.cart_totals',
             ],
         },
     },
@@ -181,6 +183,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 AUTH_USER_MODEL = 'shop.Users'
+LOGIN_URL = '/account/login/'
 
 # подключение почты
 EMAIL_HOST = 'smtp.yandex.com'

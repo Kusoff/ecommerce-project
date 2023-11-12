@@ -1,9 +1,9 @@
 {% extends 'base.html'%}
 
-{% load static %}
+{% load static humanize %}
 
 {% block title %}
-    Product
+    Store - Продукт
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@
                         {{product.name}}
                     </h1>
                     <h2 class="text-info font-italic mb-0">
-                        ₽{{product.price}}
+                        {{product.price|intcomma}} ₽
                     </h2>
                 </div>
             </div>

@@ -6,7 +6,6 @@ from .models import Users
 from shop.tasks import send_email_verification
 
 
-
 class UserRegistrationForm(UserCreationForm):
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control py-4', 'placeholder': 'Введите имя'}))

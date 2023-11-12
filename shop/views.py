@@ -1,5 +1,6 @@
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
@@ -7,9 +8,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (CreateView, DetailView, ListView,
                                   TemplateView, UpdateView)
-from django.core.cache import cache
 
 from common.views import TitleMixin
+from .utils import _cart_id
+from shop.context_processors import cart_totals
 from shop.forms import UserLoginForm, UserProfileForm, UserRegistrationForm
 from shop.models import (Cart, CartItem, Category, EmailVerification, Product,
                          Users)
@@ -44,20 +46,16 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
 
 
-def _cart_id(request):
-    cart = request.session.session_key
-    if not cart:
-        cart = request.session.create()
-    return cart
-
-
+@login_required
 def add_cart(request, product_id):
     product = Product.objects.get(id=product_id)
+
     try:
-        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cart = Cart.objects.get(user=request.user, cart_id=_cart_id(request))
     except Cart.DoesNotExist:
-        cart = Cart.objects.create(cart_id=_cart_id(request))
+        cart = Cart.objects.create(user=request.user, cart_id=_cart_id(request))
         cart.save()
+
     try:
         cart_item = CartItem.objects.get(product=product, cart=cart)
         if cart_item.quantity < cart_item.product.stock:
@@ -67,23 +65,25 @@ def add_cart(request, product_id):
         cart_item = CartItem.objects.create(product=product, quantity=1, cart=cart)
         cart_item.save()
 
+    # После обновления корзины перенаправляем пользователя на предыдущую страницу
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
-def cart_detail(request, total=0, counter=0, cart_items=None):
+@login_required
+def cart_detail(request):
     products = Product.objects.all().filter(available=True)
-    try:
-        cart = Cart.objects.get(cart_id=_cart_id(request))
 
-        cart_items = CartItem.objects.filter(cart=cart, active=True)
-        for cart_item in cart_items:
-            total += (cart_item.product.price * cart_item.quantity)
-            counter += cart_item.quantity
-    except ObjectDoesNotExist:
-        pass
-    return render(request, 'cart.html', dict(cart_items=cart_items, total=total, counter=counter, products=products))
+    # Использем контекст, предоставленный процессором cart_totals.
+    context = cart_totals(request)
+
+    # Добавляем к контексту товары.
+    context['products'] = products
+
+    # Используем контекст при рендеринге шаблона.
+    return render(request, 'cart.html', context)
 
 
+@login_required
 def cart_remove(request, product_id):
     cart = Cart.objects.get(cart_id=_cart_id(request))
     product = get_object_or_404(Product, id=product_id)
@@ -96,6 +96,7 @@ def cart_remove(request, product_id):
     return redirect('cart_detail')
 
 
+@login_required
 def cart_remove_product(request, product_id):
     cart = Cart.objects.get(cart_id=_cart_id(request))
     product = get_object_or_404(Product, id=product_id)

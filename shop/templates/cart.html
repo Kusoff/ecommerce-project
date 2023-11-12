@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% load static %}
+{% load static humanize %}
 
 {% block title %}
-    Cart
+    Store - Корзина
 {% endblock %}
 
 {% block content %}
@@ -42,7 +42,7 @@
                         <tr>
                             <td>
                                 <a href="{{ cart_item.product.get_url }}">
-                                   {% for image in cart_item.product.product_photos.all %}
+                                    {% for image in cart_item.product.product_photos.all %}
                                         <img src="{{ image.img.url }}" width="120" height="120">
                                     {% endfor %}
 
@@ -53,12 +53,12 @@
                                 <br>
                                 SKU: {{ cart_item.product.id }}
                                 <br>
-                                Unit Price: {{ cart_item.product.price }}
+                                Unit Price: {{ cart_item.product.price|intcomma }}
                                 <br>
-                                Quantity: {{ cart_item.quantity }} x {{ cart_item.product.price }}
+                                Quantity: {{ cart_item.quantity }} x {{ cart_item.product.price|intcomma }}
                             </td>
                             <td>
-                                ₽{{ cart_item.sub_total }}
+                                {{ cart_item.sub_total|intcomma }} ₽
                             </td>
                             {% if cart_item.quantity < cart_item.product.stock %}
                                 <td>
@@ -99,7 +99,7 @@
                     </tr>
                     <tr class="text-center">
                         <td>
-                            Your total bill is: <strong>₽{{ total }}</strong>
+                            Your total bill is: <strong>{{ total|intcomma }} ₽</strong>
                         </td>
                     </tr>
                     </tbody>
@@ -107,7 +107,8 @@
                 <div class="mx-auto">
                     <div class="row">
                         <div class="col-md-6">
-                            <a class="btn btn-success btn-lg btn-block float-right" href="{% url 'orders:order_create' %}">
+                            <a class="btn btn-success btn-lg btn-block float-right"
+                               href="{% url 'orders:order_create' %}">
                                 Оформить заказ
                             </a>
                         </div>
