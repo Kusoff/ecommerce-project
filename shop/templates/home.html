@@ -14,11 +14,11 @@
             <div class="col-lg-3">
                 <h1 class="my-4">Store</h1>
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Новинки</a>
-                    <a href="#" class="list-group-item">Одежда</a>
-                    <a href="#" class="list-group-item">Обувь</a>
-                    <a href="#" class="list-group-item">Аксессуары</a>
-                    <a href="#" class="list-group-item">Подарки</a>
+                    {% for category in categories %}
+                        <a href="{% url 'products_by_category' category.id %}" class="list-group-item">
+                            {{ category.name }}
+                        </a>
+                    {% endfor %}
                 </div>
             </div>
 
@@ -54,7 +54,7 @@
                     </a>
                 </div>
             </div>
-            {% cache 30 object_list %}
+{#            {% cache 30 object_list %}#}
                 {% for product in object_list %}
                 <!--object_list это ключ который создается под капотом когда мы объявляем get_queryset-->
                 <div class="col-9 mx-auto col-md-6, col-lg-3">
@@ -77,13 +77,13 @@
                                 <h5 class="text-info font-italic mb-0" style="display: inline;">
                                     {{ product.price|intcomma }} ₽
                                 </h5>
-                                <a href="{% url 'add_cart' product.id %}" class="ml-2"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <a href="{% url 'basket_add' product.id %}" class="ml-2"><i class="fa-solid fa-cart-shopping"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
-            {% endcache %}
+{#            {% endcache %}#}
 
 
 

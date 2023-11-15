@@ -126,33 +126,61 @@ class Product(models.Model):
         return self.name
 
 
-class Cart(models.Model):
-    user = models.ForeignKey(to=Users, on_delete=models.CASCADE, null=True)
-    cart_id = models.CharField(max_length=250, blank=True)
-    date_added = models.DateField(auto_now_add=True)
+class BasketQuerySet(models.QuerySet):
+    def total_sum(self):
+        return sum(basket.sum() for basket in self)
 
-    class Meta:
-        ordering = ['date_added']
-        db_table = 'Cart'
+    def total_quantity(self):
+        return sum(basket.quantity for basket in self)
 
-        def __srt__(self):
-            return self.cart_id
+    def stripe_products(self):
+        line_items = []
+        for basket in self:
+            item = {
+                'price': basket.product.stripe_product_price_id,
+                'quantity': basket.quantity,
+            }
+            line_items.append(item)
+        return line_items
 
 
-class CartItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    active = models.BooleanField(default=True)
+class Basket(models.Model):
+    user = models.ForeignKey(to=Users, on_delete=models.CASCADE)
+    product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(default=0)
+    created_timestamp = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        db_table = 'CartItem'
-
-    def sub_total(self):
-        return self.product.price * self.quantity
+    objects = BasketQuerySet.as_manager()
 
     def __str__(self):
-        return self.product
+        return f'Корзина для {self.user.username} | Продукт: {self.product.name}'
+
+    def sum(self):
+        return self.product.price * self.quantity
+
+    def de_json(self):
+        basket_item = {
+            'product_name': self.product.name,
+            'quantity': self.quantity,
+            'price': float(self.product.price),
+            'sum': float(self.sum()),
+        }
+        return basket_item
+
+    @classmethod
+    def create_or_update(cls, product_id, user):
+        baskets = Basket.objects.filter(user=user, product_id=product_id)
+
+        if not baskets.exists():
+            obj = Basket.objects.create(user=user, product_id=product_id, quantity=1)
+            is_created = True
+            return obj, is_created
+        else:
+            basket = baskets.first()
+            basket.quantity += 1
+            basket.save()
+            is_created = False
+            return basket, is_created
 
 
 class Manufacturer(models.Model):

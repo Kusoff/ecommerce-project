@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from shop.models import (Cart, Category, Characteristic, Comments,
+from shop.models import (Basket, Category, Characteristic, Comments,
                          Discount_For_Product_Category, EmailVerification,
                          Manufacturer, Product, Product_Images, Users)
 
@@ -25,9 +25,11 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
-class CartAdmin(admin.TabularInline):
-    model = Cart
-    fields = ('product', 'quantity')
+class BasketAdmin(admin.TabularInline):
+    model = Basket
+    fields = ('product', 'quantity', 'created_timestamp')
+    readonly_fields = ('created_timestamp',)
+    extra = 0
 
 
 class ManufacturerAdmin(admin.ModelAdmin):

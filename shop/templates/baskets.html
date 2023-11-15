@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    {% if not cart_items %}
+    {% if not baskets %}
         <div class="text-center">
             <br>
             <h1 class="text-center product_title">
@@ -38,42 +38,42 @@
                         </th>
                     </tr>
                     </thead>
-                    {% for cart_item in cart_items %}
+                    {% for basket in baskets %}
                         <tr>
                             <td>
-                                <a href="{{ cart_item.product.get_url }}">
-                                    {% for image in cart_item.product.product_photos.all %}
+                                <a href="{{ basket.product.get_url }}">
+                                    {% for image in basket.product.product_photos.all %}
                                         <img src="{{ image.img.url }}" width="120" height="120">
                                     {% endfor %}
 
                                 </a>
                             </td>
                             <td class="text_left">
-                                {{ cart_item.product.name }}
+                                {{ basket.product.name }}
                                 <br>
-                                SKU: {{ cart_item.product.id }}
+                                SKU: {{ basket.product.id }}
                                 <br>
-                                Unit Price: {{ cart_item.product.price|intcomma }}
+                                Unit Price: {{ basket.product.price|intcomma }}
                                 <br>
-                                Quantity: {{ cart_item.quantity }} x {{ cart_item.product.price|intcomma }}
+                                Quantity: {{ basket.quantity }} x {{ basket.product.price|intcomma }}
                             </td>
                             <td>
-                                {{ cart_item.sub_total|intcomma }} ₽
+                                {{ basket.sum|intcomma }} ₽
                             </td>
-                            {% if cart_item.quantity < cart_item.product.stock %}
+                            {% if basket.quantity < basket.product.stock %}
                                 <td>
-                                    <a href="{% url 'add_cart' cart_item.product.id %}"><span
+                                    <a href="{% url 'basket_add' basket.product.id %}"><span
                                             class="material-icons cart-icon">add_shopping_cart</span></a>
-                                    <a href="{% url 'cart_remove' cart_item.product.id %}"><span
+                                    <a href="{% url 'basket_remove_product' basket.id %}"><span
                                             class="material-icons cart-icon">remove_circle_outline</span></a>
-                                    <a href="{% url 'cart_remove_product' cart_item.product.id %}"><span
+                                    <a href="{% url 'basket_remove' basket.id %}"><span
                                             class="material-icons cart-icon">delete</span></a>
                                 </td>
                             {% else %}
                                 <td>
-                                    <a href="{% url 'cart_remove' cart_item.product.id %}"><span
+                                    <a href="{% url 'basket_remove_product' basket.product.id %}"><span
                                             class="material-icons cart-icon">remove_circle_outline</span></a>
-                                    <a href="{% url 'cart_remove_product' cart_item.product.id %}"><span
+                                    <a href="{% url 'basket_remove' basket.product.id %}"><span
                                             class="material-icons cart-icon">delete</span></a>
                                 </td>
                             {% endif %}
@@ -99,7 +99,7 @@
                     </tr>
                     <tr class="text-center">
                         <td>
-                            Your total bill is: <strong>{{ total|intcomma }} ₽</strong>
+                            Your total bill is: <strong>{{  baskets.total_sum|intcomma }} ₽</strong>
                         </td>
                     </tr>
                     </tbody>

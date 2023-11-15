@@ -2,18 +2,15 @@ from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (CreateView, DetailView, ListView,
                                   TemplateView, UpdateView)
-
 from common.views import TitleMixin
-from .utils import _cart_id
-from shop.context_processors import cart_totals
 from shop.forms import UserLoginForm, UserProfileForm, UserRegistrationForm
-from shop.models import (Cart, CartItem, Category, EmailVerification, Product,
+from shop.models import (Basket, Category, EmailVerification, Product,
                          Users)
 
 
@@ -46,63 +43,48 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
 
 
+class BasketListView(ListView):
+    template_name = 'baskets.html'
+    context_object_name = 'baskets'
+    model = Basket
+
+    def get_queryset(self):
+        user = self.request.user
+        return Basket.objects.filter(user=user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['baskets'] = self.get_queryset()
+        # Дополнительные данные, которые вы хотите добавить в контекст, можно добавить здесь
+        return context
+
+
 @login_required
-def add_cart(request, product_id):
-    product = Product.objects.get(id=product_id)
-
-    try:
-        cart = Cart.objects.get(user=request.user, cart_id=_cart_id(request))
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(user=request.user, cart_id=_cart_id(request))
-        cart.save()
-
-    try:
-        cart_item = CartItem.objects.get(product=product, cart=cart)
-        if cart_item.quantity < cart_item.product.stock:
-            cart_item.quantity += 1
-        cart_item.save()
-    except CartItem.DoesNotExist:
-        cart_item = CartItem.objects.create(product=product, quantity=1, cart=cart)
-        cart_item.save()
-
-    # После обновления корзины перенаправляем пользователя на предыдущую страницу
+def basket_add(request, product_id):
+    Basket.create_or_update(product_id, request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 @login_required
-def cart_detail(request):
-    products = Product.objects.all().filter(available=True)
-
-    # Использем контекст, предоставленный процессором cart_totals.
-    context = cart_totals(request)
-
-    # Добавляем к контексту товары.
-    context['products'] = products
-
-    # Используем контекст при рендеринге шаблона.
-    return render(request, 'cart.html', context)
+def basket_remove(request, basket_id):
+    basket = Basket.objects.get(id=basket_id)
+    basket.delete()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 @login_required
-def cart_remove(request, product_id):
-    cart = Cart.objects.get(cart_id=_cart_id(request))
-    product = get_object_or_404(Product, id=product_id)
-    cart_item = CartItem.objects.get(product=product, cart=cart)
-    if cart_item.quantity > 1:
-        cart_item.quantity -= 1
-        cart_item.save()
+def basket_remove_product(request, basket_id):
+    basket = get_object_or_404(Basket, id=basket_id)
+
+    # Уменьшаем количество товара в корзине
+    if basket.quantity > 1:
+        basket.quantity -= 1
+        basket.save()
     else:
-        cart_item.delete()
-    return redirect('cart_detail')
+        # Если количество товара равно 1, удаляем товар из корзины
+        basket.delete()
 
-
-@login_required
-def cart_remove_product(request, product_id):
-    cart = Cart.objects.get(cart_id=_cart_id(request))
-    product = get_object_or_404(Product, id=product_id)
-    cart_item = CartItem.objects.get(product=product, cart=cart)
-    cart_item.delete()
-    return redirect('cart_detail')
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
