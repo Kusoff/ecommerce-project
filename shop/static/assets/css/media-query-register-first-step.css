@@ -1,0 +1,42 @@
+@media (max-width: 901px) {
+    .content {
+        padding: 100px;
+    }
+}
+
+
+@media (max-width: 610px) {
+    .content, form input, .content select, .content h3{
+        font-size: 12px;
+    }
+
+    .content h3 {
+        margin-left: 130px;
+        width: 55px;
+    }
+}
+
+@media (max-width: 446px) {
+    .content form input {
+        width: 170px;
+    }
+
+    .content select {
+        width: 200px;
+    }
+}
+
+@media (max-width: 376px) {
+    .content form input {
+        padding: 7px 7px;
+    }
+
+    .content select {
+        width: 90%;
+    }
+
+    .content form {
+        padding-left: 20px;
+    }
+}
+

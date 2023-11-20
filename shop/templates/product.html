@@ -1,41 +1,144 @@
-{% extends 'base.html'%}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% load static humanize %}
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'assets/img/favicon.svg' %}" type="image/x-icon">
 
-{% block title %}
-    Store - Продукт
-{% endblock %}
+    <!-- Tektur Font Regular 400/Medium 500/Bold 700 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;700&display=swap" rel="stylesheet">
 
-{% block content %}
-    <div class="container py-3">
-        <div class="row mt-5">
-            <div class="col-10 mx-auto md-6 my-3">
-                <div>
-                    <h1>
-                        {{product.name}}
-                    </h1>
-                    <h2 class="text-info font-italic mb-0">
-                        {{product.price|intcomma}} ₽
-                    </h2>
+    <!-- M1 PLUS Code Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'assets/css/header+footer.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/media-query-header.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/product.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/media-query-product.css' %}">
+
+    <title>Название продукта</title>
+</head>
+<body>
+
+    <header class="header" id="header">
+       <div class="header-left-content__wrapper">
+           <div class="logo"><a href="{% url 'home'%}"><span id="logo" class="">Store</span> <span class="logo-icon"></span></a></div>
+           <div class="search">
+               <form class="search" action="search">
+                   <input type="search" name="header-search" class="header-search" placeholder="Введите название товара">
+                   <div class="search-icon">
+                       <i class="fas fa-search"></i>
+                   </div>
+               </form>
+           </div>
+       </div>
+       <div class="header-menu">
+           {% if user.is_authenticated %}
+               <a href="{% url 'signout' %}"><i class="fas fa-sign-out-alt"></i></a>
+               <a href="{% url 'profile' user.id %}"><i class="fas fa-user"></i></a>
+               <a href="{% url 'basket_list' %}"><i class="fas fa-shopping-cart"></i></a>
+           {% else %}
+               <a href="{% url 'signup' %}"><i class="fas fa-user-plus"></i></a>
+               <a href="{% url 'login' %}"><i class="fas fa-user"></i></a>
+               <a href="{% url 'basket_list' %}"><i class="fas fa-shopping-cart"></i></a>
+           {% endif %}
+
+       </div>
+    </header>
+
+    <main class="main">
+        <div class="product">
+            <div class="product-img">
+                {%for img_item in product.product_photos.all%}
+                    {%if 'main' in img_item.img_name%}
+                <img src="{{img_item.img.url}}" alt="product__photo">
+                <div class="slider-line">
+                    <i class="fas fa-chevron-left"></i>
+                    <!-- Картинок можно запихнуть 2 - 5,
+                    ибо тогда отображаться будет не очень -->
+
+                <div class="slider__item active-slide"><img src="{{img_item.img.url}}" alt=""></div>
+                    {%else%}
+                    <div class="slider__item"><img src="{{img_item.img.url}}" alt=""></div>
+                    {%endif%}
+                {%endfor%}
+                    <div class="slider__item"><img src="{{img_item.img.url}}" alt=""></div>
+                    <i class="fas fa-chevron-right"></i>
                 </div>
             </div>
-
-            <div class="col-10 mx-auto md-6 my-3">
-                {% for image in product.product_photos.all %}
-                    <img class="mx-5" width="37%"  src="{{image.img.url}}">
-                {% endfor %}
-            </div>
-
-            <div class="col-10 mx-auto md-6 my-3">
-                <h2 class="product_desc">Дополнительная информация</h2>
-                <p>{{product.description}}</p>
-                {% if product.stock <= 0 %}
-                <p>Out of Stock</p>
-                {% else %}
-                <a href="{% url 'basket_add' product.id %}">Добавить в корзину</a>
-                {% endif %}
+            <div class="product-description">
+                <p class="product-title">{{ product.name }}</p>
+                <p class="product-description__text">{{ product.description }}</p>
+                    <div class="price">
+                        <p class="start-price">Цена: <span id="finish-price-number">{{ product.price }}</span> <span id="start-price-number">7000</span></p>
+                        <p class="manufacturer">Производитель: {{ product.manufacturer }}</p>
+                    </div>
+                    <div class="add-to-cart__button">
+                        {% if product.stock <= 0 %}
+                            <p>Out of Stock</p>
+                        {% else %}
+                            <a href="{% url 'basket_add' product.id %}"><button type="button">Добавить в корзину</button></a>
+                        {% endif %}
+                    </div>
             </div>
         </div>
-    </div>
-{% endblock %}
+        <div class="comments">
+            <div class="users-comments">
+                   <div class="user-comments__wrapper">
+                       <div class="user-comments-title">
+                            <h3 id="users-comments__title">Комментарии</h3>
+                       </div>
+                        <div class="user-comments__button">
+                            <a href="#form-name"><button id="leave-a-comment__link">Оставьте комментарий</button></a>
+                        </div>
+                   </div>
+                    <div class="users-comments__item">
+                        <p class="user-name">Игорь Ермолаев</p>
+                        <p class="user-rating"></p>
+                        <p class="comment-date"></p>
+                        <p class="comment-text">Вкусно</p>
+                    </div>
+            </div>
+            <div class="leave-a-comment">
+                <form action="" class="leave-a-comment__form">
+                    <div class="name-rating-wrapper">
+                        <input type="text" name="" class="field" id="form-name" placeholder="Введите имя и фамилию" oninput="this.value=this.value.replace(/[^a-zA-Z А-ЯЁа-яё]/g,'');">
+                        <label for="form-name">Введите имя</label>
+                        <input type="number" name="" class="field" id="form-rating" placeholder="Введите вашу оценку (1-10)">
+                        <label for="form-rating">Введите рейтинг</label>
+                        <input type="number" name="" class="field" id="product" disabled>
+                    </div>
+                    <textarea name="" id="form-text" cols="30" rows="10" placeholder="Введите текст"></textarea>
+                    <button id="leave-a-comment__button" type="button">Опубликовать</button>
+                </form>
+            </div>
+        </div>
+    </main>
 
+    <footer class="footer">
+        <div class="footer-content">
+            <a href="#">О нас</a>
+            <a href="#">Поставщики</a>
+            <a href="#">Связаться с нами</a>
+        </div>
+    </footer>
+
+    <p class="created">Designed and created by Brahma</p>
+
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/product/productSlider.js' %}"></script>
+    <script src="{% static 'assets/js/product/product.js' %}"></script>
+    <script src="{% static 'assets/js/product/commentsButton.js' %}"></script>
+</body>
+</html>

@@ -43,7 +43,11 @@
                             <td>
                                 <a href="{{ basket.product.get_url }}">
                                     {% for image in basket.product.product_photos.all %}
-                                        <img src="{{ image.img.url }}" width="120" height="120">
+                                        {% if image.first_img %}
+                                            <img src="{{ image.img.url }}" width="120"
+                                                 height="120"
+                                                 alt="{{ product.title }}">
+                                        {% endif %}
                                     {% endfor %}
 
                                 </a>
@@ -99,7 +103,7 @@
                     </tr>
                     <tr class="text-center">
                         <td>
-                            Your total bill is: <strong>{{  baskets.total_sum|intcomma }} ₽</strong>
+                            Your total bill is: <strong>{{ baskets.total_sum|intcomma }} ₽</strong>
                         </td>
                     </tr>
                     </tbody>

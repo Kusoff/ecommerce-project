@@ -60,10 +60,13 @@
                 <div class="col-9 mx-auto col-md-6, col-lg-3">
                     <div class="card mb-5">
                         <div class="p-4">
-                            {% for image in product.product_photos.all %}
-                                <a href="{{ product.get_url }}"><img class="card-img-top" src="{{ image.img.url }}"
+                        {% for image in product.product_photos.all %}
+                            {% if image.first_img %}
+                                 <a href="{{ product.get_url }}"><img class="card-img-top" src="{{ image.img.url }}"
                                                                      alt="{{ product.title }}"></a>
-                            {% endfor %}
+                                {# Дополнительный код для отображения главной картинки #}
+                            {% endif %}
+                        {% endfor %}
 
 
                         </div>

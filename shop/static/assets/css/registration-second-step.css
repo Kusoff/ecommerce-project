@@ -1,0 +1,33 @@
+.content h3 {
+    margin-left: 120px;
+}
+
+.buttons {
+    display: flex;
+    column-gap: 20px;
+}
+
+#mailing-list-on__button::before {
+    display: none;
+}
+
+#mailing-list-on__button {
+    cursor: pointer;
+    transition: .3s ease background-color, .3s ease box-shadow, .3s ease transform;
+    box-shadow: 0 0 0 3px red;
+    width: 120px;
+    margin-left: 10px;
+    border: none;
+}
+
+#id_1-mailing_list {
+    opacity: 0;
+}
+
+#first-step__button:hover, #prev-step__button:hover {
+    box-shadow: 0 0 0 3px blueviolet;
+}
+
+#first-step__button::before, #prev-step__button::before {
+    background-color: blueviolet;
+}

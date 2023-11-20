@@ -1,0 +1,54 @@
+.content {
+    margin-left: 180px;
+    margin-top: 200px;
+    color: white;
+}
+
+p {
+    font-size: 72px;
+}
+
+p span:first-child {
+    color: red;
+}
+
+.content p:nth-child(2) {
+    margin-left: 220px;
+}
+
+button {
+    position: relative;
+    width: 200px;
+    height: 40px;
+    margin-left: 535px;
+    border-radius: 30px;
+    border: 2px solid #CC01FF;
+    color: white;
+    font-size: 18px;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: .3s ease transform;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px rgb(162, 68, 249);
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 100%;
+    left: 0;
+    background-color: rgb(162, 68, 249);
+    z-index: -1;
+    transition: .3s ease top;
+}
+
+button:hover::after {
+    top: 0;
+}

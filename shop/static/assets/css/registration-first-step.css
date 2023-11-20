@@ -1,0 +1,75 @@
+.content h3 {
+    color: white;
+    margin-left: 200px;
+}
+
+.content form {
+    text-align: left;
+}
+
+.content select {
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 30px;
+    outline: none;
+    color: white;
+    width: 93%;
+    margin-left: 10px;
+    padding: 5px;
+    cursor: pointer;
+    transition: .3s ease background-color;
+    margin: 10px 10px;
+}
+
+.content select:hover {
+    background-color: black;
+}
+
+.content option {
+    background-color: #171717;
+}
+
+.content option:first-child {
+    display: none;
+}
+
+#id_0-password2 {
+    transition: .3s ease margin-top;
+}
+
+.repeat-password {
+    position: relative;
+}
+
+.helptext {
+    position: absolute;
+    top: 0;
+    left: 5%;
+    opacity: 0;
+    width: 250px;
+    font-size: 16px;
+    z-index: -1;
+    transition: .3s ease opacity;
+    text-align: center;
+}
+
+.content a::before {
+    display: none;
+}
+
+.content a {
+    overflow: visible;
+}
+
+.content button:hover::before {
+    top: 0;
+}
+
+.content button::before {
+    background-color: #2CC283;
+    top: -100%;
+}
+
+.content button:hover {
+    box-shadow: 0 0 0 3px #2CC283;
+}

@@ -1,0 +1,228 @@
+body {
+    color: white;
+}
+
+.profile-img__wrapper {
+    position: relative;
+    border: 2px solid white;
+    border-radius: 100%;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    border-bottom: 2px solid black;
+}
+
+.registration-date {
+    margin-top: 30px;
+}
+
+.fa-cogs {
+    font-size: 24px;
+    margin-left: 96%;
+}
+
+.fa-cogs {
+    transition: .3s ease color;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.fa-cogs:hover {
+    color: gray;
+}
+
+.fa-edit {
+    font-size: 24px;
+}
+
+.profile-img-hover {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 100%;
+    top: 0;
+    cursor: pointer;
+    opacity: 0;
+    transition: .4s ease opacity;
+}
+
+.profile-img__wrapper:hover .profile-img-hover {
+    opacity: 100;
+}
+
+.orders {
+    padding: 0 58px;
+}
+
+.paid {
+    color: #87BF53;
+}
+
+.not-paid {
+    color: #F31559;
+}
+
+.delivery {
+    color: #FFDD83;
+}
+
+.orders-item__title {
+    font-size: 28px;
+    margin-top: 50px;
+}
+
+.orders__container {
+    margin-top: 25px;
+    display: flex;
+    column-gap: 50px;
+}
+
+.profile-settings__container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 998;
+    display: none;
+}
+
+.profile-settings form i {
+    position: absolute;
+    font-size: 28px;
+    left: 90%;
+    top: 8%;
+    transition: .3s ease transform,
+        .3s ease color;
+}
+
+.profile-settings form i:hover {
+    transform: rotate(90deg);
+    color: gray;
+}
+
+.profile-settings__title {
+    position: absolute;
+    top: 50px;
+    font-size: 28px;
+}
+
+.profile-settings {
+    position: fixed;
+    background-color: black;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 80px;
+    width: 700px;
+    height: 600px;
+    z-index: 999;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 150px;
+    padding: 0 150px;
+    opacity: 0;
+    transition: .3s ease opacity;
+}
+
+.profile-settings form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-settings form>div {
+    display: flex;
+    flex-direction: column;
+    margin: 50px;
+}
+
+.profile-settings form input {
+    position: relative;
+    width: 250px;
+    height: 30px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    margin-top: 15px;
+    color: white;
+    border-bottom: 2px solid black;
+}
+
+.profile-settings form input::placeholder {
+    color: white;
+    font-size: 18px;
+}
+
+.profile-settings__form-item div {
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-settings__form-item div::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 2px;
+    background-color: #CC00FF;
+    right: 100%;
+    top: 96%;
+    transition: .3s ease right;
+}
+
+.profile-settings__form-item div:hover::after {
+    right: 0;
+}
+
+.profile-settings form input:focus {
+    border-bottom: 2.5px solid #CC00FF;
+}
+
+#confirm {
+    position: relative;
+    background-color: transparent;
+    outline: none;
+    border: 2px solid white;
+    border-radius: 30px;
+    color: white;
+    width: 170px;
+    height: 40px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: .3s ease transform,
+        .3s ease box-shadow;
+}
+
+#confirm:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 3.5px green;
+}
+
+#confirm::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    bottom: -100%;
+    left: 0;
+    background-color: green;
+    z-index: -1;
+    transition: .3s ease border-radius,
+        .3s ease-in-out bottom;
+}
+
+#confirm:hover::after {
+    bottom: 0;
+    border-radius: 30px;
+}

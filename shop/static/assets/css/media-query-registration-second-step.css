@@ -1,0 +1,28 @@
+@media (max-width: 610px) {
+    header {
+        padding-bottom: 10px;
+    } 
+
+    .content h3 {
+        width: 60px;
+        margin-left: 70px;
+    }
+}
+
+@media (max-width: 604px) {
+    .buttons button {
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 446px) {
+    .buttons button {
+        font-size: 12px;
+        padding: 5px 15px;
+    }
+
+    .buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
