@@ -28,7 +28,7 @@
                                 <h6 class="my-0">{{ basket.product.name }}</h6>
                                 <small class="text-muted">{{ basket.quantity }} шт.</small>
                             </div>
-                            <span class="text-muted">{{ product.sum|intcomma }} руб.</span>
+                            <span class="text-muted">{{ basket.sum|intcomma }} руб.</span>
                         </li>
                         {% endfor %}
                         <li class="list-group-item d-flex justify-content-between">

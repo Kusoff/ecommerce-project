@@ -102,11 +102,13 @@ class Product_Images(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=250, unique=True)
+    first_price = models.IntegerField(verbose_name='Первоначальная цена', default=0)
+    discount = models.FloatField(verbose_name='Скидка', default=0, blank=True)
+    last_price = models.IntegerField(verbose_name='Конечная  цена', blank=True, null=True)
     slug = models.SlugField(max_length=250, unique=True)
     description = models.TextField(blank=True)
     manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=0)
     stock = models.IntegerField()
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -121,6 +123,13 @@ class Product(models.Model):
 
     def get_url(self):
         return reverse('product_detail', args=[self.category.id, self.slug])
+
+    def save(self, *args, **kwargs):
+        if self.discount > 0:
+            self.last_price = int(self.first_price * (1 - self.discount / 100))
+        else:
+            self.last_price = self.first_price
+        super(Product, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -156,13 +165,13 @@ class Basket(models.Model):
         return f'Корзина для {self.user.username} | Продукт: {self.product.name}'
 
     def sum(self):
-        return self.product.price * self.quantity
+        return self.product.last_price * self.quantity
 
     def de_json(self):
         basket_item = {
             'product_name': self.product.name,
             'quantity': self.quantity,
-            'price': float(self.product.price),
+            'price': float(self.product.last_price),
             'sum': float(self.sum()),
         }
         return basket_item

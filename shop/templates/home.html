@@ -78,7 +78,7 @@
                             </p>
                             <div>
                                 <h5 class="text-info font-italic mb-0" style="display: inline;">
-                                    {{ product.price|intcomma }} ₽
+                                    {{ product.last_price|intcomma }} ₽
                                 </h5>
                                 <a href="{% url 'basket_add' product.id %}" class="ml-2"><i class="fa-solid fa-cart-shopping"></i></a>
                             </div>

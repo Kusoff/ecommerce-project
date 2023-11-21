@@ -81,7 +81,7 @@
                 <p class="product-title">{{ product.name }}</p>
                 <p class="product-description__text">{{ product.description }}</p>
                     <div class="price">
-                        <p class="start-price">Цена: <span id="finish-price-number">{{ product.price }}</span> <span id="start-price-number">7000</span></p>
+                        <p class="start-price">Цена: <span id="finish-price-number">{{ product.last_price }}</span> <span id="start-price-number">{{ product.first_price }}</span></p>
                         <p class="manufacturer">Производитель: {{ product.manufacturer }}</p>
                     </div>
                     <div class="add-to-cart__button">

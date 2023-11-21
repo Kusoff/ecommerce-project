@@ -5,6 +5,7 @@ from shop.models import (Basket, Category, Characteristic, Comments,
                          Discount_For_Product_Category, EmailVerification,
                          Manufacturer, Product, Product_Images, Users)
 
+
 # Register your models here.
 
 class UserAdmin(admin.ModelAdmin):
@@ -17,11 +18,11 @@ class UserAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'name', 'price', 'stock', 'category', 'manufacturer')
+        'id', 'name', 'first_price', 'last_price', 'stock', 'discount', 'category', 'manufacturer')
     list_display_links = ('id', 'name')
     search_fields = ('name',)
-    list_filter = ('category', 'manufacturer', 'price',)
-    list_editable = ('price', 'stock')
+    list_filter = ('discount', 'category', 'manufacturer', 'last_price',)
+    list_editable = ('first_price', 'last_price', 'stock', 'discount')
     prepopulated_fields = {'slug': ('name',)}
 
 

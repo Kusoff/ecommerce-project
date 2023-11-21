@@ -59,7 +59,7 @@
                                 <br>
                                 Unit Price: {{ basket.product.price|intcomma }}
                                 <br>
-                                Quantity: {{ basket.quantity }} x {{ basket.product.price|intcomma }}
+                                Quantity: {{ basket.quantity }} x {{ basket.product.last_price|intcomma }}
                             </td>
                             <td>
                                 {{ basket.sum|intcomma }} ₽

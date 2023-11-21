@@ -26,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-DOMAIN_NAME = 'http://localhost:8000'
+DOMAIN_NAME = 'http://127.0.0.1:8000'
 
 # Application definition
 
@@ -214,45 +214,8 @@ LOGIN_REDIRECT_URL = 'home'
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "{message}",
-            "style": "{",
-        },
-        "simple": {
-            "format": "{levelname} {message}",
-            "style": "{",
-        },
-    },
+# Stripe
 
-    "handlers": {
-
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "simple",
-        },
-        "mail_admins": {
-            "level": "ERROR",
-            "class": "django.utils.log.AdminEmailHandler",
-
-        },
-        "file": {
-            "level": "WARNING",
-            "class": "logging.FileHandler",
-            "filename": "logging.log",
-            "formatter": "verbose"
-
-        },
-    },
-    "loggers": {
-        "shop.tasks": {
-            "handlers": ['file'],
-            "level": "WARNING",
-            "propagate": True,
-        },
-    },
-}
+STRIPE_PUBLIC_KEY = 'pk_test_51OCGKcIxyz89hi0hOzwIn00qxWNoxmYsBoGguKbp6YZo3h97uObJJGZ0Zk4W3HAYrdMXWZWUNxVRv1aA2oUH96uh00dowxYHe6'
+STRIPE_SECRET_KEY = 'sk_test_51OCGKcIxyz89hi0h9sRHZNPhfasV6c3bGeY79FsBO1YXhHrNKVByOAYj55gD3Uc6Pd6iim3GXBZfZvlgvZ4Fwn0o00wCn9HAIt'
+STRIPE_WEBHOOK_SECRET = 'whsec_f54e87ebf5a3cc960a3cbe454b279bbf9c40e868c8f35a405f66d4c93430bca9'

@@ -11,7 +11,7 @@ from django.views.generic import (CreateView, DetailView, ListView,
 from common.views import TitleMixin
 from shop.forms import UserLoginForm, UserProfileForm, UserRegistrationForm
 from shop.models import (Basket, Category, EmailVerification, Product,
-                         Users)
+                         Users, Manufacturer, Comments, Product_Images)
 
 
 # Create your views here.
@@ -22,7 +22,8 @@ class HomeListView(TitleMixin, ListView):
     title = 'Store'
 
     def get_queryset(self):
-        queryset = super(HomeListView, self).get_queryset()  # тот же самый  product = Product.objects.all()
+        queryset = super(HomeListView, self).get_queryset().select_related('category').prefetch_related(
+            'product_photos')  # тот же самый  product = Product.objects.all()
         category_id = self.kwargs.get('category_id')  # kwargs это входные данные в url в моем случае <id:category_id>
         return queryset.filter(
             category_id=category_id) if category_id else queryset  # queryset это сформированный список объектов,
@@ -36,7 +37,7 @@ class HomeListView(TitleMixin, ListView):
 
 
 class ProductDetailView(DetailView):
-    """Просмотр поста """
+
     model = Product
     slug_url_kwarg = 'product_slug'
     template_name = 'product.html'
@@ -50,7 +51,10 @@ class BasketListView(ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return Basket.objects.filter(user=user)
+        return Basket.objects.select_related('product', 'user').prefetch_related(
+            Prefetch('product__product_photos',
+                     queryset=Product_Images.objects.filter(first_img=True).only('img', 'first_img', 'img_name'))
+        ).filter(user=user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
