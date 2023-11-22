@@ -11,6 +11,7 @@ from django.http import HttpResponse
 
 from common.views import TitleMixin
 from orders.forms import OrderForm
+from shop.models import Basket
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -32,16 +33,11 @@ class OrderCreateView(TitleMixin, CreateView):
 
     def post(self, request, *args, **kwargs):
         super(OrderCreateView, self).post(request, *args, **kwargs)
+        baskets = Basket.objects.filter(user=self.request.user)
         checkout_session = stripe.checkout.Session.create(
             # то, что должно браться из корзины и формируется в line_items
             # stripe берет данные о продуктах не напрямую из БД, а из своей таблицы
-            line_items=[
-                {
-                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                    'price': 'price_1OEs9aIxyz89hi0h2a5FYb9Q',
-                    'quantity': 1,
-                },
-            ],
+            line_items=baskets.stripe_products(),
             metadata={'order_id': self.object.id}, #аргумент в который мы передаем id_заказа
             mode='payment',
             success_url='{}{}'.format(settings.DOMAIN_NAME, reverse('orders:order_success')),

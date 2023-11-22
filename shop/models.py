@@ -1,12 +1,16 @@
+import stripe
 from autoslug import AutoSlugField
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
 from django.db import models
 from django.urls import reverse
 from django.utils.timezone import now
+from django.conf import settings
 from sortedm2m.fields import SortedManyToManyField
 
 from ecommerce import settings
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 # Create your models here.
@@ -105,6 +109,7 @@ class Product(models.Model):
     first_price = models.IntegerField(verbose_name='Первоначальная цена', default=0)
     discount = models.FloatField(verbose_name='Скидка', default=0, blank=True)
     last_price = models.IntegerField(verbose_name='Конечная  цена', blank=True, null=True)
+    stripe_product_price_id = models.CharField(max_length=128, null=True, blank=True)
     slug = models.SlugField(max_length=250, unique=True)
     description = models.TextField(blank=True)
     manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель')
@@ -124,15 +129,29 @@ class Product(models.Model):
     def get_url(self):
         return reverse('product_detail', args=[self.category.id, self.slug])
 
-    def save(self, *args, **kwargs):
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None, *args, **kwargs):
         if self.discount > 0:
             self.last_price = int(self.first_price * (1 - self.discount / 100))
         else:
             self.last_price = self.first_price
+
         super(Product, self).save(*args, **kwargs)
+
+        # проверка наличия в продукте его stripe_id
+        if not self.stripe_product_price_id:
+            stripe_product_price = self.create_stripe_product_price()
+            self.stripe_product_price_id = stripe_product_price['id']
+
+        super(Product, self).save(force_insert=False, force_update=False, using=None, update_fields=None)
 
     def __str__(self):
         return self.name
+
+    def create_stripe_product_price(self):
+        stripe_product = stripe.Product.create(name=self.name)
+        stripe_product_price = stripe.Price.create(
+            product=stripe_product['id'], unit_amount=round(self.last_price * 100), currency='rub')
+        return stripe_product_price
 
 
 class BasketQuerySet(models.QuerySet):
