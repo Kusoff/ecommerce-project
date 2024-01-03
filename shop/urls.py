@@ -19,4 +19,5 @@ urlpatterns = [
     # UserProfileForm наследуется от класса UpdateView, который работает с конкреиным объектом, поэтому нужен его id
     path('verify/<str:email>/<uuid:code>/', views.EmailVerificationView.as_view(), name='email_verification'),
 
+
 ]

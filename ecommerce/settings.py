@@ -219,3 +219,24 @@ CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 STRIPE_PUBLIC_KEY = 'pk_test_51OCGKcIxyz89hi0hOzwIn00qxWNoxmYsBoGguKbp6YZo3h97uObJJGZ0Zk4W3HAYrdMXWZWUNxVRv1aA2oUH96uh00dowxYHe6'
 STRIPE_SECRET_KEY = 'sk_test_51OCGKcIxyz89hi0h9sRHZNPhfasV6c3bGeY79FsBO1YXhHrNKVByOAYj55gD3Uc6Pd6iim3GXBZfZvlgvZ4Fwn0o00wCn9HAIt'
 STRIPE_WEBHOOK_SECRET = 'whsec_f54e87ebf5a3cc960a3cbe454b279bbf9c40e868c8f35a405f66d4c93430bca9'
+
+# settings.py
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',  # или 'INFO'
+            'class': 'logging.FileHandler',
+            'filename': 'logging.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

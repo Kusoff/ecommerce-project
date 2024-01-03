@@ -58,9 +58,11 @@ class BasketListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['baskets'] = self.get_queryset()
-        # Дополнительные данные, которые вы хотите добавить в контекст, можно добавить здесь
+        baskets = self.get_queryset()
+        context['baskets'] = baskets
+        context['total_sum'] = baskets.total_sum()  # Добавьте эту строку
         return context
+
 
 
 @login_required

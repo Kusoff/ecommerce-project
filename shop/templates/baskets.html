@@ -57,7 +57,7 @@
                                 <br>
                                 SKU: {{ basket.product.id }}
                                 <br>
-                                Unit Price: {{ basket.product.price|intcomma }}
+                                Unit Price: {{ basket.product.last_price|intcomma }}
                                 <br>
                                 Quantity: {{ basket.quantity }} x {{ basket.product.last_price|intcomma }}
                             </td>

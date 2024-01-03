@@ -186,6 +186,7 @@ class Basket(models.Model):
     def sum(self):
         return self.product.last_price * self.quantity
 
+    # функция возвращает объект из корзины
     def de_json(self):
         basket_item = {
             'product_name': self.product.name,
@@ -207,8 +208,8 @@ class Basket(models.Model):
             basket = baskets.first()
             basket.quantity += 1
             basket.save()
-            is_created = False
-            return basket, is_created
+            is_crated = False
+            return basket, is_crated
 
 
 class Manufacturer(models.Model):
